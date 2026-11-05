@@ -1,6 +1,6 @@
 {
   "id": "forest-01",
-  "artStatus": "provisional: legacy composite background; segmented object assets need QA; not native 4K",
+  "artStatus": "provisional: legacy composite background; three independent alpha-verified fern accents; segmented sheet objects excluded; not native 4K",
   "logicalSize": {
     "width": 3840,
     "height": 2160
@@ -8,427 +8,31 @@
   "background": "forest_bg.png",
   "objects": [
     {
-      "id": "cover-0-0",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.07,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-1",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.1775,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-2",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.28500000000000003,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-3",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.3925,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-4",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.5,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-5",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.6074999999999999,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-6",
-      "asset": "objects/rocks/rock_medium.png",
+      "id": "fern-right-bank",
+      "asset": "objects/bushes/fern_clean.png",
       "x": 0.7150000000000001,
-      "y": 0.22299999999999998,
-      "width": 0.075,
+      "y": 0.563,
+      "width": 0.13,
       "scale": 1,
       "zIndex": 70
     },
     {
-      "id": "cover-0-7",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.8225,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-0-8",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.9299999999999999,
-      "y": 0.22299999999999998,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-0",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.07,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-1",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.1775,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-2",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.28500000000000003,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-3",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.3925,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-4",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.5,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-5",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.6074999999999999,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-6",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.7150000000000001,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-7",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.8225,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-1-8",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.9299999999999999,
-      "y": 0.39299999999999996,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-0",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.07,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-1",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.1775,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-2",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.28500000000000003,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-3",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.3925,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-4",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.5,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-5",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.6074999999999999,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-6",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.7150000000000001,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-7",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.8225,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-2-8",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.9299999999999999,
-      "y": 0.5630000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-0",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.07,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-1",
-      "asset": "objects/props/mushrooms.png",
+      "id": "fern-left-bank",
+      "asset": "objects/bushes/fern_clean.png",
       "x": 0.1775,
       "y": 0.733,
-      "width": 0.075,
+      "width": 0.13,
       "scale": 1,
       "zIndex": 70
     },
     {
-      "id": "cover-3-2",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.28500000000000003,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-3",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.3925,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-4",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.5,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-5",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.6074999999999999,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-6",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.7150000000000001,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-3-7",
-      "asset": "objects/bushes/bush_green.png",
+      "id": "fern-front-right",
+      "asset": "objects/bushes/fern_clean.png",
       "x": 0.8225,
-      "y": 0.733,
-      "width": 0.075,
+      "y": 0.903,
+      "width": 0.1,
       "scale": 1,
       "zIndex": 70
-    },
-    {
-      "id": "cover-3-8",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.9299999999999999,
-      "y": 0.733,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-0",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.07,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-1",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.1775,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-2",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.28500000000000003,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-3",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.3925,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-4",
-      "asset": "objects/bushes/bush_leaves.png",
-      "x": 0.5,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-5",
-      "asset": "objects/props/mushrooms.png",
-      "x": 0.6074999999999999,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-6",
-      "asset": "objects/bushes/bush_green.png",
-      "x": 0.7150000000000001,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-7",
-      "asset": "objects/rocks/rock_medium.png",
-      "x": 0.8225,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "cover-4-8",
-      "asset": "objects/props/log_hollow.png",
-      "x": 0.9299999999999999,
-      "y": 0.9030000000000001,
-      "width": 0.075,
-      "scale": 1,
-      "zIndex": 70
-    },
-    {
-      "id": "tree-left",
-      "asset": "objects/trees/tree_hollow.png",
-      "x": 0.1,
-      "y": 0.01,
-      "width": 0.19,
-      "scale": 1,
-      "zIndex": 30
-    },
-    {
-      "id": "tree-right",
-      "asset": "objects/trees/tree_branch.png",
-      "x": 0.88,
-      "y": 0.01,
-      "width": 0.19,
-      "scale": 1,
-      "zIndex": 30
     }
   ],
   "slots": [
@@ -440,9 +44,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-0"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -458,9 +60,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-1"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -476,9 +76,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-2"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -494,9 +92,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-3"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -512,9 +108,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-4"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -530,9 +124,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-5"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -548,9 +140,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-6"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -566,9 +156,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-7"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -584,9 +172,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-0-8"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -602,9 +188,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-0"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -620,9 +204,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-1"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -638,9 +220,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-2"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -656,9 +236,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-3"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -674,9 +252,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-4"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -692,9 +268,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-5"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -710,9 +284,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-6"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -728,9 +300,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-7"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -746,9 +316,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-1-8"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -764,9 +332,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-0"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -782,9 +348,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-1"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -800,9 +364,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-2"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -818,9 +380,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-3"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -836,9 +396,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-4"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -854,9 +412,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-5"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -873,7 +429,7 @@
         1
       ],
       "foregroundObjectIds": [
-        "cover-2-6"
+        "fern-right-bank"
       ],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
@@ -890,9 +446,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-7"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -908,9 +462,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-2-8"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -926,9 +478,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-0"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -945,7 +495,7 @@
         1
       ],
       "foregroundObjectIds": [
-        "cover-3-1"
+        "fern-left-bank"
       ],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
@@ -962,9 +512,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-2"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -980,9 +528,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-3"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -998,9 +544,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-4"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1016,9 +560,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-5"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1034,9 +576,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-6"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1052,9 +592,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-7"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1070,9 +608,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-3-8"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1088,9 +624,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-0"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1106,9 +640,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-1"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1124,9 +656,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-2"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1142,9 +672,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-3"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1160,9 +688,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-4"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1178,9 +704,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-5"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1196,9 +720,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-6"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",
@@ -1215,7 +737,7 @@
         1
       ],
       "foregroundObjectIds": [
-        "cover-4-7"
+        "fern-front-right"
       ],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
@@ -1232,9 +754,7 @@
         0.9,
         1
       ],
-      "foregroundObjectIds": [
-        "cover-4-8"
-      ],
+      "foregroundObjectIds": [],
       "maxOcclusionRatio": 0.32,
       "difficulty": [
         "easy",

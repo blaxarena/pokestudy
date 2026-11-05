@@ -531,6 +531,18 @@
       ],
       "alpha": "segmented-estimate",
       "review_required": true
+    },
+    {
+      "id": "fern_clean",
+      "category": "bushes",
+      "file": "objects/bushes/fern_clean.png",
+      "pixel_size": [
+        1774,
+        887
+      ],
+      "alpha": "generated-transparent-alpha-verified",
+      "review_required": false,
+      "notes": "Single independent plant generated with transparent background. RGBA alpha extrema 0/255; four corners transparent. Replaces all sheet-derived objects in active scene."
     }
   ],
   "notes": "Real alpha PNGs segmented from generated sheet. Some background bleed and neighboring object fragments may remain; manual QA required. Not native 4K original art."
