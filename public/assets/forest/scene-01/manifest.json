@@ -1,0 +1,537 @@
+{
+  "scene": "forest_01",
+  "source_resolution": [
+    1536,
+    1024
+  ],
+  "objects": [
+    {
+      "id": "tree_hollow",
+      "category": "trees",
+      "file": "objects/trees/tree_hollow.png",
+      "source_bbox": [
+        0,
+        0,
+        555,
+        391
+      ],
+      "pixel_size": [
+        555,
+        391
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "tree_round",
+      "category": "trees",
+      "file": "objects/trees/tree_round.png",
+      "source_bbox": [
+        515,
+        20,
+        824,
+        363
+      ],
+      "pixel_size": [
+        309,
+        343
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "tree_branch",
+      "category": "trees",
+      "file": "objects/trees/tree_branch.png",
+      "source_bbox": [
+        775,
+        0,
+        1320,
+        391
+      ],
+      "pixel_size": [
+        545,
+        391
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "tree_small",
+      "category": "trees",
+      "file": "objects/trees/tree_small.png",
+      "source_bbox": [
+        1300,
+        10,
+        1536,
+        259
+      ],
+      "pixel_size": [
+        236,
+        249
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "stump_tall",
+      "category": "trees",
+      "file": "objects/trees/stump_tall.png",
+      "source_bbox": [
+        1285,
+        222,
+        1536,
+        394
+      ],
+      "pixel_size": [
+        251,
+        172
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "rock_cave",
+      "category": "rocks",
+      "file": "objects/rocks/rock_cave.png",
+      "source_bbox": [
+        0,
+        390,
+        372,
+        588
+      ],
+      "pixel_size": [
+        372,
+        198
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "rock_mossy",
+      "category": "rocks",
+      "file": "objects/rocks/rock_mossy.png",
+      "source_bbox": [
+        373,
+        390,
+        642,
+        540
+      ],
+      "pixel_size": [
+        269,
+        150
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "rock_medium",
+      "category": "rocks",
+      "file": "objects/rocks/rock_medium.png",
+      "source_bbox": [
+        760,
+        396,
+        960,
+        530
+      ],
+      "pixel_size": [
+        200,
+        134
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "rock_small_group",
+      "category": "rocks",
+      "file": "objects/rocks/rock_small_group.png",
+      "source_bbox": [
+        380,
+        512,
+        845,
+        594
+      ],
+      "pixel_size": [
+        465,
+        82
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "waterfall_rocks",
+      "category": "rocks",
+      "file": "objects/rocks/waterfall_rocks.png",
+      "source_bbox": [
+        957,
+        394,
+        1255,
+        581
+      ],
+      "pixel_size": [
+        298,
+        187
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "bush_leaves",
+      "category": "bushes",
+      "file": "objects/bushes/bush_leaves.png",
+      "source_bbox": [
+        0,
+        595,
+        295,
+        729
+      ],
+      "pixel_size": [
+        295,
+        134
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "bush_pink",
+      "category": "bushes",
+      "file": "objects/bushes/bush_pink.png",
+      "source_bbox": [
+        302,
+        594,
+        500,
+        722
+      ],
+      "pixel_size": [
+        198,
+        128
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "bush_white",
+      "category": "bushes",
+      "file": "objects/bushes/bush_white.png",
+      "source_bbox": [
+        510,
+        590,
+        717,
+        721
+      ],
+      "pixel_size": [
+        207,
+        131
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "bush_yellow",
+      "category": "bushes",
+      "file": "objects/bushes/bush_yellow.png",
+      "source_bbox": [
+        720,
+        591,
+        906,
+        726
+      ],
+      "pixel_size": [
+        186,
+        135
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "bush_green",
+      "category": "bushes",
+      "file": "objects/bushes/bush_green.png",
+      "source_bbox": [
+        906,
+        588,
+        1072,
+        727
+      ],
+      "pixel_size": [
+        166,
+        139
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "grass_tall",
+      "category": "grass",
+      "file": "objects/grass/grass_tall.png",
+      "source_bbox": [
+        1070,
+        583,
+        1232,
+        716
+      ],
+      "pixel_size": [
+        162,
+        133
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "grass_thin",
+      "category": "grass",
+      "file": "objects/grass/grass_thin.png",
+      "source_bbox": [
+        1230,
+        588,
+        1390,
+        711
+      ],
+      "pixel_size": [
+        160,
+        123
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "grass_sparse",
+      "category": "grass",
+      "file": "objects/grass/grass_sparse.png",
+      "source_bbox": [
+        1384,
+        585,
+        1536,
+        712
+      ],
+      "pixel_size": [
+        152,
+        127
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flowers_pink",
+      "category": "flowers",
+      "file": "objects/flowers/flowers_pink.png",
+      "source_bbox": [
+        0,
+        739,
+        168,
+        842
+      ],
+      "pixel_size": [
+        168,
+        103
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flowers_white",
+      "category": "flowers",
+      "file": "objects/flowers/flowers_white.png",
+      "source_bbox": [
+        166,
+        735,
+        281,
+        839
+      ],
+      "pixel_size": [
+        115,
+        104
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flowers_yellow",
+      "category": "flowers",
+      "file": "objects/flowers/flowers_yellow.png",
+      "source_bbox": [
+        282,
+        733,
+        390,
+        842
+      ],
+      "pixel_size": [
+        108,
+        109
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flowers_small_pink",
+      "category": "flowers",
+      "file": "objects/flowers/flowers_small_pink.png",
+      "source_bbox": [
+        383,
+        733,
+        492,
+        845
+      ],
+      "pixel_size": [
+        109,
+        112
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "mushrooms",
+      "category": "props",
+      "file": "objects/props/mushrooms.png",
+      "source_bbox": [
+        495,
+        735,
+        831,
+        850
+      ],
+      "pixel_size": [
+        336,
+        115
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "log_hollow",
+      "category": "props",
+      "file": "objects/props/log_hollow.png",
+      "source_bbox": [
+        837,
+        726,
+        1198,
+        852
+      ],
+      "pixel_size": [
+        361,
+        126
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "stump_low",
+      "category": "props",
+      "file": "objects/props/stump_low.png",
+      "source_bbox": [
+        1198,
+        712,
+        1536,
+        861
+      ],
+      "pixel_size": [
+        338,
+        149
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "wooden_bridge",
+      "category": "props",
+      "file": "objects/props/wooden_bridge.png",
+      "source_bbox": [
+        0,
+        852,
+        388,
+        1024
+      ],
+      "pixel_size": [
+        388,
+        172
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "wooden_posts",
+      "category": "props",
+      "file": "objects/props/wooden_posts.png",
+      "source_bbox": [
+        382,
+        859,
+        511,
+        1024
+      ],
+      "pixel_size": [
+        129,
+        165
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "wooden_planks",
+      "category": "props",
+      "file": "objects/props/wooden_planks.png",
+      "source_bbox": [
+        507,
+        864,
+        720,
+        995
+      ],
+      "pixel_size": [
+        213,
+        131
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flower_patch",
+      "category": "ground",
+      "file": "objects/ground/flower_patch.png",
+      "source_bbox": [
+        728,
+        870,
+        1025,
+        957
+      ],
+      "pixel_size": [
+        297,
+        87
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flower_patch_small",
+      "category": "ground",
+      "file": "objects/ground/flower_patch_small.png",
+      "source_bbox": [
+        975,
+        874,
+        1140,
+        946
+      ],
+      "pixel_size": [
+        165,
+        72
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    },
+    {
+      "id": "flower_hill",
+      "category": "ground",
+      "file": "objects/ground/flower_hill.png",
+      "source_bbox": [
+        1130,
+        855,
+        1536,
+        1024
+      ],
+      "pixel_size": [
+        406,
+        169
+      ],
+      "alpha": "segmented-estimate",
+      "review_required": true
+    }
+  ],
+  "notes": "Real alpha PNGs segmented from generated sheet. Some background bleed and neighboring object fragments may remain; manual QA required. Not native 4K original art."
+}
