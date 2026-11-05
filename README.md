@@ -46,3 +46,11 @@ Node 24 및 Python 3 환경에서 `/workspace/pokestudy`로 이동해 `npm start
 ## 독립 그래픽 에셋 패키지
 
 새로 제작한 숲속 에셋은 `asset-packages/forest-01/`에 별도로 보관합니다. [에셋 갤러리](https://blaxarena.github.io/pokestudy/asset-packages/forest-01/)에서 투명 영역의 표시색을 바꿔 개별 PNG를 확인할 수 있습니다. 이 패키지는 기존 게임 장면을 자동 교체하지 않습니다.
+
+## 직접 배치 편집기
+
+[숲속 장면 만들기](https://blaxarena.github.io/pokestudy/editor/)에서 에셋을 클릭하거나 배경으로 끌어 추가하고, 손가락/마우스로 위치를 바꿀 수 있습니다. 선택한 에셋의 오른쪽 아래 모서리 또는 크기 슬라이더로 크기를 조절합니다. 좌우 뒤집기, 진하기, 숨기기, 앞뒤 순서, 복제/삭제, 되돌리기를 지원합니다.
+
+배치는 현재 브라우저에 자동 저장됩니다. **배치 JSON 저장**으로 파일을 보관하고 **배치 JSON 불러오기**로 다른 기기에서도 이어 편집하세요. **완성 이미지 PNG 저장**은 선택 테두리 없이 1672×941 이미지로 저장합니다. 이 편집기는 배치 시안 제작용이며, 공개 숨은그림찾기 장면을 자동 교체하지 않습니다.
+
+`npm test`는 기존 검사와 편집기 모델 검사 18개를 실행합니다. `python tests/editor_browser.py`는 실제 에셋을 사용해 PC/터치·파일 저장/복원을 검사하며 Python Playwright, Pillow, 시스템 Chromium이 필요합니다. 일반 사용자는 설치 없이 위 웹 주소로 이용할 수 있습니다.
