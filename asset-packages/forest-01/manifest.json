@@ -1,0 +1,1213 @@
+{
+  "id": "forest-01-independent-assets",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "summary": "배경 1장 + 독립 투명 PNG 오브젝트 35개. 모든 파일 1672×941px. 첫 번째 숲속 그림의 화풍을 기준으로 개별 제작한 자산입니다.",
+  "backgroundNotes": "원경의 숲·지형·지면·물길·오솔길은 배경에 포함됩니다. 배치용 가까운 나무·바위·소품·식물은 별도 파일입니다.",
+  "assets": [
+    {
+      "id": "background",
+      "file": "background/forest-empty.png",
+      "transparent": false,
+      "category": "background",
+      "width": 1672,
+      "height": 941,
+      "bytes": 3849670,
+      "sha256": "b8bdb7fc3e658f80bf133fe06cb366f5e172d400816c88229a9cd3d13056dfa9",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet."
+    },
+    {
+      "id": "tree-hollow",
+      "file": "trees/tree-hollow.png",
+      "transparent": true,
+      "category": "trees",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1338461,
+      "sha256": "792665daeb7660c3b72747a5ff68a22032fb0c780069a02b91c2bf97e92278b1",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6838,
+      "visibleBounds": [
+        311,
+        19,
+        1319,
+        919
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.48744,
+        "y": 0.976621
+      }
+    },
+    {
+      "id": "tree-branching",
+      "file": "trees/tree-branching.png",
+      "transparent": true,
+      "category": "trees",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1595764,
+      "sha256": "e8f77969b83b672977ddaf4c02cd604c1a6c0753395b8c9109ddd7f39cc642b9",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6519,
+      "visibleBounds": [
+        220,
+        28,
+        1453,
+        910
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.500299,
+        "y": 0.967056
+      }
+    },
+    {
+      "id": "tree-small",
+      "file": "trees/tree-small.png",
+      "transparent": true,
+      "category": "trees",
+      "width": 1672,
+      "height": 941,
+      "bytes": 737908,
+      "sha256": "7b126a5753caea4774634494f71466ed7a24fc4cc4afe9ee5a15bb817765f91e",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.844,
+      "visibleBounds": [
+        472,
+        40,
+        1192,
+        882
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.497608,
+        "y": 0.937301
+      }
+    },
+    {
+      "id": "tree-round",
+      "file": "trees/tree-round.png",
+      "transparent": true,
+      "category": "trees",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1493085,
+      "sha256": "aec4514770a7e335e050ed10a1d9c65654a578ece68db3a98e60a8eac7b00d78",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.655,
+      "visibleBounds": [
+        311,
+        36,
+        1359,
+        897
+      ],
+      "cornerAlpha": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.499402,
+        "y": 0.953241
+      }
+    },
+    {
+      "id": "tree-wide",
+      "file": "trees/tree-wide.png",
+      "transparent": true,
+      "category": "trees",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1946889,
+      "sha256": "3cf88432a08a955424b76f96fe8405f99bd3bf338ab96dc86d6b6122d314b746",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5768,
+      "visibleBounds": [
+        74,
+        83,
+        1597,
+        863
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.499701,
+        "y": 0.917109
+      }
+    },
+    {
+      "id": "bridge",
+      "file": "props/bridge.png",
+      "transparent": true,
+      "category": "props",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1369531,
+      "sha256": "84ec24f88de1a1f46a2c9d9e898c4d30fbbd71773bcf7ac0526d48a9c3813ed6",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6817,
+      "visibleBounds": [
+        135,
+        146,
+        1536,
+        828
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.499701,
+        "y": 0.879915
+      }
+    },
+    {
+      "id": "log",
+      "file": "props/log.png",
+      "transparent": true,
+      "category": "props",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1284390,
+      "sha256": "9b9f2ad9a71e0f64b2816e5e80f72138e951b420067a35efeef5e82c80744a9b",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.702,
+      "visibleBounds": [
+        181,
+        263,
+        1496,
+        714
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.501495,
+        "y": 0.758767
+      }
+    },
+    {
+      "id": "stump",
+      "file": "props/stump.png",
+      "transparent": true,
+      "category": "props",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1744785,
+      "sha256": "8d67e21c36f05e399b14d606a737f898626cdd0538426f5e770ecd26699940f5",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5962,
+      "visibleBounds": [
+        148,
+        135,
+        1520,
+        801
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.498804,
+        "y": 0.851222
+      }
+    },
+    {
+      "id": "mushroom-large",
+      "file": "mushrooms/mushroom-large.png",
+      "transparent": true,
+      "category": "mushrooms",
+      "width": 1672,
+      "height": 941,
+      "bytes": 954185,
+      "sha256": "7610f75df51176d3a745d981ec4675b0b68f45a34922fdbe22527c43c1a3ddfa",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7823,
+      "visibleBounds": [
+        431,
+        68,
+        1238,
+        884
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.499103,
+        "y": 0.939426
+      }
+    },
+    {
+      "id": "mushroom-small",
+      "file": "mushrooms/mushroom-small.png",
+      "transparent": true,
+      "category": "mushrooms",
+      "width": 1672,
+      "height": 941,
+      "bytes": 493560,
+      "sha256": "e01ff4c6510a9c2bfcb3ab30cabe96df9895f89fefe4f416c87dadbb683cf367",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.8925,
+      "visibleBounds": [
+        582,
+        163,
+        1087,
+        798
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.499103,
+        "y": 0.848034
+      }
+    },
+    {
+      "id": "rock-moss",
+      "file": "rocks/rock-moss.png",
+      "transparent": true,
+      "category": "rocks",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1169780,
+      "sha256": "cb6c677fe7fcd0788b2870f843de7c6ed5b9abccab2618b8384a62f2c12d8e3e",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7083,
+      "visibleBounds": [
+        304,
+        188,
+        1363,
+        770
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.498505,
+        "y": 0.818278
+      }
+    },
+    {
+      "id": "rock-round",
+      "file": "rocks/rock-round.png",
+      "transparent": true,
+      "category": "rocks",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1124314,
+      "sha256": "c81348a9fc6a12c49341260a4b827a4d86de7be7793ec8a3f58f50d22e1ffe63",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7246,
+      "visibleBounds": [
+        350,
+        175,
+        1294,
+        769
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.491627,
+        "y": 0.817216
+      }
+    },
+    {
+      "id": "rock-cave",
+      "file": "rocks/rock-cave.png",
+      "transparent": true,
+      "category": "rocks",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1839406,
+      "sha256": "2c97d10328672c50827843b36691ad060c3b46762ea0fb6a001ae181ea1383fe",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5892,
+      "visibleBounds": [
+        137,
+        84,
+        1559,
+        837
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.507177,
+        "y": 0.889479
+      }
+    },
+    {
+      "id": "grass-wide",
+      "file": "grass/grass-wide.png",
+      "transparent": true,
+      "category": "grass",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1417058,
+      "sha256": "77a2a376e150158118a4073db892b154c3744caa4e14bad9d5f0c80c1f75aa0b",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.679,
+      "visibleBounds": [
+        262,
+        73,
+        1415,
+        880
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.501495,
+        "y": 0.935175
+      }
+    },
+    {
+      "id": "grass-tall",
+      "file": "grass/grass-tall.png",
+      "transparent": true,
+      "category": "grass",
+      "width": 1672,
+      "height": 941,
+      "bytes": 967024,
+      "sha256": "dfe4da9f65d6c8b06ca30d5adb76ac5309cd613a96fda19724d72cae997c9ccc",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7728,
+      "visibleBounds": [
+        329,
+        50,
+        1332,
+        880
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.496711,
+        "y": 0.935175
+      }
+    },
+    {
+      "id": "grass-short",
+      "file": "grass/grass-short.png",
+      "transparent": true,
+      "category": "grass",
+      "width": 1672,
+      "height": 941,
+      "bytes": 651656,
+      "sha256": "79c0ddcf17d7f098dd409e8dce035b8a75f23e20ff22f021e8c4b02f369b4e0a",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.8351,
+      "visibleBounds": [
+        312,
+        282,
+        1349,
+        605
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.496711,
+        "y": 0.642933
+      }
+    },
+    {
+      "id": "grass-sparse",
+      "file": "grass/grass-sparse.png",
+      "transparent": true,
+      "category": "grass",
+      "width": 1672,
+      "height": 941,
+      "bytes": 770222,
+      "sha256": "eeedbc5458fe8bb13c690a4a8ef6f07fb23b90fdd7f8ff7717eb7e0274379b17",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.8318,
+      "visibleBounds": [
+        262,
+        62,
+        1404,
+        882
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.498206,
+        "y": 0.937301
+      }
+    },
+    {
+      "id": "grass-reeds",
+      "file": "grass/grass-reeds.png",
+      "transparent": true,
+      "category": "grass",
+      "width": 1672,
+      "height": 941,
+      "bytes": 934578,
+      "sha256": "db0b0fef1ad8a87395c4831892897de3e5b4501e8bdd267d64091ec2dcfa9ea6",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7858,
+      "visibleBounds": [
+        338,
+        116,
+        1341,
+        833
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.502093,
+        "y": 0.885228
+      }
+    },
+    {
+      "id": "grass-curled",
+      "file": "grass/grass-curled.png",
+      "transparent": true,
+      "category": "grass",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1144354,
+      "sha256": "5697dec500a5e04169cca376d0a07d59873b24da9c1a284440e52fcb2c64da6d",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7446,
+      "visibleBounds": [
+        141,
+        172,
+        1528,
+        761
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.499103,
+        "y": 0.808714
+      }
+    },
+    {
+      "id": "bush-round",
+      "file": "bushes/bush-round.png",
+      "transparent": true,
+      "category": "bushes",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1518475,
+      "sha256": "c2a00ff384afc09c0b2218d0f26feb0b8be1c3b3c888d10fb43293c603587ef3",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6323,
+      "visibleBounds": [
+        295,
+        78,
+        1369,
+        850
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.497608,
+        "y": 0.903294
+      }
+    },
+    {
+      "id": "bush-wide",
+      "file": "bushes/bush-wide.png",
+      "transparent": true,
+      "category": "bushes",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1873565,
+      "sha256": "8439753298ebbbbeec87fec29ec749ed2ac5095ae6c288a49f5e88ef90f51af5",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.5711,
+      "visibleBounds": [
+        90,
+        101,
+        1576,
+        836
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.498206,
+        "y": 0.888417
+      }
+    },
+    {
+      "id": "bush-yellow",
+      "file": "bushes/bush-yellow.png",
+      "transparent": true,
+      "category": "bushes",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1466055,
+      "sha256": "dfc61112752b540d4b189d131fb3aa292cfbb837e4965fb6624794b146746f6f",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.652,
+      "visibleBounds": [
+        309,
+        117,
+        1363,
+        820
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.871413
+      }
+    },
+    {
+      "id": "bush-white",
+      "file": "bushes/bush-white.png",
+      "transparent": true,
+      "category": "bushes",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1150534,
+      "sha256": "438b72d6dc0a2aa7274ecfdd4db348f0663d0e05a72720f13fa822399c64a0c7",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7426,
+      "visibleBounds": [
+        480,
+        43,
+        1182,
+        882
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.49701,
+        "y": 0.937301
+      }
+    },
+    {
+      "id": "bush-light",
+      "file": "bushes/bush-light.png",
+      "transparent": true,
+      "category": "bushes",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1456761,
+      "sha256": "bb722b06b7da442f7922439362d4da4452e676b5114efa7372f896d613dfaf73",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6528,
+      "visibleBounds": [
+        253,
+        63,
+        1397,
+        851
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.493421,
+        "y": 0.904357
+      }
+    },
+    {
+      "id": "flowers-pink",
+      "file": "flowers/flowers-pink.png",
+      "transparent": true,
+      "category": "flowers",
+      "width": 1672,
+      "height": 941,
+      "bytes": 881417,
+      "sha256": "ba70de0a32a143b01b67615f9c52e08ab080ba1374136dc2c4273bcdfe8aebe3",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7939,
+      "visibleBounds": [
+        461,
+        78,
+        1184,
+        869
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.491926,
+        "y": 0.923486
+      }
+    },
+    {
+      "id": "flowers-purple",
+      "file": "flowers/flowers-purple.png",
+      "transparent": true,
+      "category": "flowers",
+      "width": 1672,
+      "height": 941,
+      "bytes": 927973,
+      "sha256": "2da4b83689de2230b07fc369f6863f28ef35c87daed36d51307a3ba3eb1d55ab",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7983,
+      "visibleBounds": [
+        432,
+        32,
+        1209,
+        906
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.49073,
+        "y": 0.962806
+      }
+    },
+    {
+      "id": "flowers-yellow",
+      "file": "flowers/flowers-yellow.png",
+      "transparent": true,
+      "category": "flowers",
+      "width": 1672,
+      "height": 941,
+      "bytes": 909279,
+      "sha256": "459d5f8640e4580459d58802395bf98728524c5efeabffe4f4d2663a4730ba06",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7868,
+      "visibleBounds": [
+        411,
+        50,
+        1210,
+        876
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.484749,
+        "y": 0.930925
+      }
+    },
+    {
+      "id": "flowers-white",
+      "file": "flowers/flowers-white.png",
+      "transparent": true,
+      "category": "flowers",
+      "width": 1672,
+      "height": 941,
+      "bytes": 985369,
+      "sha256": "a26905885fab99e89dd1d26893db3dba9c3a150ee1f1dfe9ccb54baa42cf2483",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7706,
+      "visibleBounds": [
+        479,
+        88,
+        1206,
+        879
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.503888,
+        "y": 0.934113
+      }
+    },
+    {
+      "id": "flowers-tall-pink",
+      "file": "flowers/flowers-tall-pink.png",
+      "transparent": true,
+      "category": "flowers",
+      "width": 1672,
+      "height": 941,
+      "bytes": 567986,
+      "sha256": "ed2326205b25aa9a09694b4bbd25d6bb17fe55cd13ea5fc3b4102a3d8e64bff1",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.887,
+      "visibleBounds": [
+        598,
+        33,
+        1039,
+        911
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.489533,
+        "y": 0.968119
+      }
+    },
+    {
+      "id": "flowers-mixed",
+      "file": "flowers/flowers-mixed.png",
+      "transparent": true,
+      "category": "flowers",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1133969,
+      "sha256": "71830f4e2c6b8a64f4fdbced5e024288b5833295c8b109f4f82feb1fab245e83",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.731,
+      "visibleBounds": [
+        394,
+        79,
+        1258,
+        878
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.494019,
+        "y": 0.93305
+      }
+    },
+    {
+      "id": "fern-spread",
+      "file": "plants/fern-spread.png",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1599809,
+      "sha256": "cb8c2b3a42034b146409574f102bd3ed429e913379b6e5b77d77e68c67e4dc42",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.6284,
+      "visibleBounds": [
+        141,
+        86,
+        1533,
+        873
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.500598,
+        "y": 0.927736
+      }
+    },
+    {
+      "id": "fern-upright",
+      "file": "plants/fern-upright.png",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1019571,
+      "sha256": "a55add744c95cc1a600e4b6eb006af1b16661ee9b0bf01ce3969cad72555bd28",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7688,
+      "visibleBounds": [
+        452,
+        20,
+        1220,
+        908
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.964931
+      }
+    },
+    {
+      "id": "plant-broadleaf",
+      "file": "plants/plant-broadleaf.png",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1107847,
+      "sha256": "a2bd1b8c8a21fca36d96edb695180500dff01b22aecaa9a563acf885550ddbd3",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7366,
+      "visibleBounds": [
+        263,
+        51,
+        1310,
+        873
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.470395,
+        "y": 0.927736
+      }
+    },
+    {
+      "id": "plant-berries",
+      "file": "plants/plant-berries.png",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1156387,
+      "sha256": "59a141fb6bd6a15cb42632c64149e9baf501ee20c07a2f443156fdf69a978345",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.7331,
+      "visibleBounds": [
+        352,
+        67,
+        1334,
+        878
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.504187,
+        "y": 0.93305
+      }
+    },
+    {
+      "id": "vine",
+      "file": "plants/vine.png",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 528243,
+      "sha256": "499ac19530787f64026bc11eeae82727d71b2b62054986c3f70033461aae5576",
+      "reviewRequired": false,
+      "provenance": "Individually generated from the first forest illustration style reference; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.8923,
+      "visibleBounds": [
+        118,
+        224,
+        1547,
+        728
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.497907,
+        "y": 0.773645
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "assetCount": 36,
+  "opaqueBackgrounds": 1,
+  "transparentObjects": 35,
+  "allCanvasSizes": [
+    1672,
+    941
+  ],
+  "pngDecode": "passed for all 36",
+  "objectAlphaRange": [
+    0,
+    255
+  ],
+  "maxCornerAlpha": 1,
+  "borderCheck": "No visible pixels above alpha 10 at any image border",
+  "visualReview": "All categories inspected on dark background; haze/speck cleanup and selected full-size inspection completed",
+  "galleryCheck": "All 36 images decoded at exactly 1672x941 in Chromium; all color controls work; mobile 390px has no horizontal overflow; ZIP download completed; no JavaScript errors",
+  "knownLimits": [
+    "Separate assets newly generated in the first reference style, not an exact pixel decomposition of the first painting.",
+    "Distant trees and continuous ground texture remain in the base background.",
+    "No gameplay integration or final scene occlusion validation performed."
+  ],
+  "zipCheck": "36 PNG entries; CRC integrity check passed"
+}
