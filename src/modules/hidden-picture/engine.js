@@ -1,5 +1,6 @@
 import {hitTest} from './hit-test.js';
-import {loadScene, drawObjects} from './scene-loader.js';
+import {loadLayoutScene,paintLayoutScene,refinePlacements} from './layout-scene.js';
+import {placeLayoutPokemon} from './layout-placement.js';
 import {placePokemon} from './placement.js';
 
 (()=>{
@@ -22,16 +23,11 @@ import {placePokemon} from './placement.js';
   let sceneBackground=null,foundIds=new Set(),placedOrder=[],sceneReady=false;
   function paintScene(){
     const c=$h('hideScene'),ctx=c.getContext('2d'),w=c.width,h=c.height;
-    ctx.clearRect(0,0,w,h);
-    if(sceneBackground)ctx.drawImage(sceneBackground,0,0,w,h);
-    else {ctx.fillStyle='#b9df9d';ctx.fillRect(0,0,w,h);drawDecor(ctx,theme,w,h);}
-    if(theme==='forest'&&forestScene)drawObjects(ctx,forestScene,w,h,0,49);
-    placedOrder.forEach(p=>{
-      const im=images.get(p.id);
-      if(im){ctx.save();ctx.drawImage(im,p.x,p.y,p.w,p.h);ctx.restore();}
-
-    });
-    if(theme==='forest'&&forestScene)drawObjects(ctx,forestScene,w,h,50,999);
+    if(theme==='forest'&&forestScene)paintLayoutScene(ctx,forestScene,placedOrder,images,w,h);
+    else{
+      ctx.clearRect(0,0,w,h);ctx.fillStyle=themes[theme].bg[0];ctx.fillRect(0,0,w,h);drawDecor(ctx,theme,w,h);
+      for(const p of placedOrder){const im=images.get(p.id);if(im)ctx.drawImage(im,p.x,p.y,p.w,p.h);}
+    }
     placedOrder.forEach(p=>{
       if(p.target&&(foundIds.has(p.id)||revealed)){
         const cx=p.x+p.w/2,cy=p.y+p.h/2;
@@ -106,48 +102,34 @@ import {placePokemon} from './placement.js';
     ctx.fillStyle=t==='sea'||t==='harbor'?'#4bafc7':t==='snow'?'#eaf5fb':t==='lava'?'#6d4140':t==='cave'?'#625b60':t==='town'?'#9dc77e':'#79ad69';
     ctx.globalAlpha=.35;ctx.beginPath();ctx.ellipse(w*.18,h*.93,w*.34,h*.19,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(w*.78,h*.96,w*.42,h*.22,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
   }
-  function loadImage(url){return new Promise(resolve=>{const im=new Image();im.crossOrigin='anonymous';im.onload=()=>resolve(im);im.onerror=()=>resolve(null);im.src=url;});}
+  const pokemonImageCache=new Map();
+  function loadImage(url){
+    if(!pokemonImageCache.has(url))pokemonImageCache.set(url,new Promise(resolve=>{
+      const im=new Image();im.crossOrigin='anonymous';const timer=setTimeout(()=>{im.onload=im.onerror=null;resolve(null);},15000);
+      im.onload=()=>{clearTimeout(timer);resolve(im);};im.onerror=()=>{clearTimeout(timer);resolve(null);};im.src=url;
+    }).then(image=>{if(!image)pokemonImageCache.delete(url);return image;}));
+    return pokemonImageCache.get(url);
+  }
   async function makeScene(){
-    sceneReady=false;
-    const conf=levels[level],pool=await getCandidates(),pref=themes[theme].types;
-    const ranked=shuffle(pool.filter(p=>p.types.some(t=>pref.includes(t))));
-    const fallback=shuffle(pool.filter(p=>!ranked.some(r=>r.id===p.id)));
-    let chosen=ranked.slice(0,conf.total);
-    if(chosen.length<conf.total)chosen=chosen.concat(fallback.slice(0,conf.total-chosen.length));
-    if(chosen.length<conf.total)throw new Error('장면을 만들 포켓몬이 부족해요. 다시 시도해 주세요.');
-    scenePokemon=chosen.map((p,i)=>({...p,target:i<conf.targets,x:0,y:0,w:0,h:0}));
-    const shuffled=shuffle(scenePokemon);
-    targetIds=new Set(shuffled.filter(p=>p.target).map(p=>p.id));
-    shuffled.forEach(p=>{p.target=targetIds.has(p.id);});
-
-    sceneReady=false;foundIds.clear();images.clear();placedOrder=[];
-    const canvas=$h('hideScene'),ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
-    forestScene=theme==='forest'?await loadScene(new URL('../../../public/assets/forest/scene-01/scene.json', import.meta.url).href):null;
-    sceneBackground=forestScene?.backgroundImage??null;
-    if(theme==='forest'&&!sceneBackground)throw new Error('숲속 배경을 불러오지 못했어요. 다시 시도해 주세요.');
-    // Place Pokémon in varied natural-looking areas rather than a rigid grid.
-    const zones=[
-      [.08,.25],[.22,.24],[.39,.22],[.58,.23],[.79,.23],[.92,.34],
-      [.12,.53],[.29,.48],[.47,.48],[.68,.47],[.86,.54],
-      [.08,.78],[.25,.73],[.43,.79],[.61,.72],[.81,.78],[.94,.76],
-      [.18,.38],[.36,.34],[.55,.36],[.74,.36],[.90,.43],
-      [.08,.64],[.32,.62],[.51,.62],[.72,.62],[.89,.64],
-      [.18,.88],[.39,.89],[.59,.88],[.77,.89],[.95,.88],
-      [.28,.17],[.49,.17],[.69,.18],[.84,.17],[.04,.43],
-      [.42,.43],[.63,.43],[.97,.49],[.15,.68],[.55,.54],
-      [.76,.55],[.34,.55],[.68,.84],[.48,.91]
-    ];
-    const shuffledZones=shuffle(zones).slice(0,shuffled.length);
-    const loaded=await Promise.all(shuffled.map(async p=>await loadImage(p.image)||await loadImage(p.fallback)));
-    if(loaded.some(im=>!im))throw new Error('포켓몬 이미지를 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.');
-    const placements=placePokemon(shuffled,level,forestScene?.slots,w,h);
-    placements.forEach((p,i)=>{Object.assign(shuffled[i],p);images.set(p.id,loaded[i]);});
-    revealed=false;placedOrder=shuffled;paintScene();sceneReady=true;
-    renderTargets();updateFound();
-
-    $h('hideAnswerBtn').disabled=false;$h('hideAnswerBtn').textContent='🔍 정답 확인';
-    $h('hideAnswerStatus').textContent='버튼을 누르면 숨겨진 위치를 모두 알려줘요.';
-    $h('hideSceneHint').textContent='포켓몬을 하나씩 찾아보세요. 정답 확인 전에는 위치가 표시되지 않아요.';
+    sceneReady=false;$h('hideAnswerBtn').disabled=true;
+    try{
+      const conf=levels[level];
+      const [pool,nextForest]=await Promise.all([getCandidates(),theme==='forest'?loadLayoutScene(new URL('../../../public/assets/forest/scene-01/scene-layout-v1.json',import.meta.url).href):null]);
+      setStatus(theme==='forest'?'배치한 숲속에 포켓몬을 숨기고 있어요…':'장면에 포켓몬을 숨기고 있어요…');
+      const pref=themes[theme].types,ranked=shuffle(pool.filter(p=>p.types.some(t=>pref.includes(t)))),fallback=shuffle(pool.filter(p=>!ranked.some(r=>r.id===p.id)));
+      const chosen=[...ranked,...fallback].slice(0,conf.total);
+      if(chosen.length<conf.total)throw new Error('장면을 만들 포켓몬이 부족해요. 다시 시도해 주세요.');
+      const nextPokemon=shuffle(chosen.map((p,i)=>({...p,target:i<conf.targets})));const loaded=await Promise.all(nextPokemon.map(async p=>await loadImage(p.image)||await loadImage(p.fallback)));
+      if(loaded.some(im=>!im))throw new Error('포켓몬 이미지를 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.');
+      const nextImages=new Map(nextPokemon.map((p,i)=>[p.id,loaded[i]])),canvas=$h('hideScene');const w=nextForest?.logicalSize.width??3840,h=nextForest?.logicalSize.height??2160;
+      const positions=nextForest?refinePlacements(nextForest,placeLayoutPokemon(nextPokemon,level,nextForest.variants,w,h),nextImages,level,w,h):placePokemon(nextPokemon,level,null,w,h);
+      if(nextForest){const hidden=shuffle(positions.filter(p=>p.occlusionRatio>=.025)),open=shuffle(positions.filter(p=>p.occlusionRatio<.025)),targets=new Set([...hidden,...open].slice(0,conf.targets).map(p=>p.id));for(const p of positions)p.target=targets.has(p.id);}
+      canvas.width=w;canvas.height=h;forestScene=nextForest;sceneBackground=nextForest?.backgroundImage??null;images=nextImages;scenePokemon=positions;placedOrder=positions;
+      targetIds=new Set(positions.filter(p=>p.target).map(p=>p.id));foundIds.clear();revealed=false;paintScene();sceneReady=true;renderTargets();updateFound();
+      $h('hideAnswerBtn').textContent='🔍 정답 확인';$h('hideAnswerStatus').textContent='버튼을 누르면 남은 목표의 위치를 알려줘요.';
+      $h('hideSceneHint').textContent=nextForest?'직접 만든 숲속에서 포켓몬을 찾아보세요. 나무와 수풀 뒤도 살펴보세요.':'포켓몬을 하나씩 찾아보세요. 정답 확인 전에는 위치가 표시되지 않아요.';
+    }catch(error){sceneReady=placedOrder.length>0;throw error;}
+    finally{$h('hideAnswerBtn').disabled=revealed||!sceneReady;}
   }
   function renderTargets(){
     const targets=scenePokemon.filter(p=>p.target);
@@ -165,13 +147,14 @@ import {placePokemon} from './placement.js';
       setStatus('숨은그림찾기 장면을 준비하고 있어요…');
       await makeScene();
       $h('hideSetup').classList.add('hidden');$h('hideGame').classList.remove('hidden');
-      $h('hideGameTitle').textContent=`${themes[theme].name} · ${level==='easy'?'쉬움':level==='normal'?'보통':'어려움'}`;
+      $h('hideGameTitle').textContent=`${theme==='forest'?'나의 숲속':themes[theme].name} · ${level==='easy'?'쉬움':level==='normal'?'보통':'어려움'}`;
     }catch(e){setStatus(e.message||'장면을 만드는 중 문제가 생겼어요.');}
     finally{btn.disabled=false;$h('hideAgainBtn').disabled=false;}
   }
   $h('hideStartBtn').addEventListener('click',startGame);
   $h('hideAnswerBtn').addEventListener('click',revealAnswers);
   $h('hideBackBtn').addEventListener('click',()=>{$h('hideGame').classList.add('hidden');$h('hideSetup').classList.remove('hidden');});
+  if(new URLSearchParams(location.search).get('play')==='forest')document.querySelector('nav [data-module=hideModule]')?.click();
   $h('hideAgainBtn').addEventListener('click',async()=>{
     const b=$h('hideAgainBtn');b.disabled=true;
     try{await makeScene();}catch(e){$h('hideAnswerStatus').textContent=e.message;}

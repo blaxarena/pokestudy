@@ -288,7 +288,7 @@ a{color:#1f5fae}
         <h2 class="section-title">포켓몬 숨은그림찾기</h2>
         <p class="hint">장소와 난이도를 고르고 숨은 포켓몬을 찾아보세요. 시간제한도 오답도 없어요. 다 찾았거나 확인하고 싶을 때 정답 버튼을 누르면 숨은 위치가 동그라미로 표시됩니다.</p>
         <h3 class="section-title" style="margin-top:20px">① 장소 선택</h3>
-        <p class="status-note">숲속 1장 · 레이어 엔진 시제품: 기존 합성 배경을 사용합니다. 오브젝트 없는 배경과 경계 보정 자산은 준비 중이며, 최종 4K 아트가 아닙니다.</p><div class="hidden-setup-grid" id="hideThemeOptions">
+        <p class="status-note">직접 만든 숲속에서 포켓몬을 찾아보세요. 새로 시작하면 숨어 있는 포켓몬과 위치가 달라져요.</p><div class="hidden-setup-grid" id="hideThemeOptions">
           <button class="theme-choice selected" data-theme="forest"><span class="theme-emoji">🌳</span>숲속</button>
           <button class="theme-choice" data-theme="sea"><span class="theme-emoji">🌊</span>바다</button>
           <button class="theme-choice" data-theme="town"><span class="theme-emoji">🏘️</span>마을</button>
@@ -323,7 +323,7 @@ a{color:#1f5fae}
             <div class="hide-answer-card">
               <button id="hideAnswerBtn" class="btn primary">정답 확인</button>
               <p class="hide-status" id="hideAnswerStatus">버튼을 누르면 숨겨진 위치를 모두 알려줘요.</p>
-              <button id="hideAgainBtn" class="btn secondary" style="width:100%;margin-top:8px">새로운 장면 만들기</button>
+              <button id="hideAgainBtn" class="btn secondary" style="width:100%;margin-top:8px">다른 포켓몬으로 다시 시작</button>
             </div>
           </aside>
         </div>
@@ -734,7 +734,7 @@ $("retryWrong").addEventListener("click",()=>{
 </script>
 
 
-<script type="module" src="./src/modules/hidden-picture/engine.js"></script>
+<script type="module" src="./src/modules/hidden-picture/engine.js?v=user-forest-01"></script>
 
 </body>
 </html>

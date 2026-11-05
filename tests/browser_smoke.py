@@ -11,7 +11,7 @@ with sync_playwright() as pw:
  for width,height,dpr in [(3840,2160,1),(1180,820,2),(768,1024,2),(390,844,3)]:
   context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=dpr,has_touch=True)
   page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-  page.add_init_script('''window.pokemonDraws=[];const draw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(im,...args){if(im.src?.includes('raw.githubusercontent.com'))window.pokemonDraws.push({src:im.src,args});return draw.call(this,im,...args)};''')
+  page.add_init_script('''window.pokemonDraws=[];const draw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(im,...args){if(this.canvas.id==='hideScene'&&im.src?.includes('raw.githubusercontent.com'))window.pokemonDraws.push({src:im.src,args});return draw.call(this,im,...args)};''')
   def api(route):
    url=route.request.url
    if 'generation/' in url: data={'pokemon_species':[{'url':f'https://pokeapi.co/api/v2/pokemon-species/{i}/','name':f'test-{i}'} for i in range(1,61)]}
@@ -20,7 +20,7 @@ with sync_playwright() as pw:
    else: data={}
    route.fulfill(json=data)
   page.route('https://pokeapi.co/**',api)
-  page.route('https://raw.githubusercontent.com/**',lambda r:r.fulfill(body=sprite,content_type='image/png'))
+  page.route('https://raw.githubusercontent.com/**',lambda r:r.fulfill(body=sprite,content_type='image/png',headers={'Access-Control-Allow-Origin':'*'}))
   page.goto(os.environ.get('BASE_URL','http://127.0.0.1:8000/'));page.wait_for_selector('#homeModule:not(.hidden)')
   # Explicit fixture population avoids 300 live requests and makes species assertions deterministic.
   page.evaluate('''localStorage.setItem('pokedexHiddenCandidatesV1',JSON.stringify(Array.from({length:60},(_,i)=>({id:i+1,name:'테스트'+(i+1),types:['grass'],image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i+1}.png`,fallback:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i+1}.png`}))));''')
@@ -32,10 +32,11 @@ with sync_playwright() as pw:
    ids=page.locator('#hideTargets [data-pokemon-id]').evaluate_all('(els)=>els.map(e=>+e.dataset.pokemonId)')
    # Touch exact rendered centers, including targets beneath foreground objects.
    canvas=page.locator('#hideScene');canvas.scroll_into_view_if_needed();box=canvas.bounding_box()
+   logical=canvas.evaluate('(c)=>({width:c.width,height:c.height})')
    for id in ids:
     canvas.scroll_into_view_if_needed();box=canvas.bounding_box()
     draw=next(d for d in draws if int(re.search(r'/(\d+)\.png',d['src'])[1])==id);x,y,w,h=draw['args']
-    page.touchscreen.tap(box['x']+(x+w/2)/3840*box['width'],box['y']+(y+h/2)/2160*box['height'])
+    page.touchscreen.tap(box['x']+(x+w/2)/logical['width']*box['width'],box['y']+(y+h/2)/logical['height']*box['height'])
    if page.locator('#hideTargets .found').count()!=targets:
     page.screenshot(path='/tmp/pokestudy-failure.png',full_page=True)
     raise AssertionError((width,level,box,ids,page.locator('#hideTargets .found').count()))
