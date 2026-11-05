@@ -3,6 +3,14 @@
 v10의 학습 기능을 보존하며 숲속 1장 레이어 엔진을 분리한 플레이 가능 시제품입니다.
 **최종 숲속 아트는 미완료입니다.** 기존 배경에 주요 자연물이 합성되어 있으며 제공 PNG는 추출/검수 대기 자산입니다.
 
+## 설치 없이 웹에서 실행하기
+
+GitHub Pages 배포가 완료되면 `https://blaxarena.github.io/pokestudy/`에서 실행합니다. PC나 태블릿에 Python을 설치할 필요가 없습니다.
+
+최초 한 번 저장소 **Settings → Pages → Build and deployment → Source → GitHub Actions**를 선택하세요. 이후 **Actions → Deploy learning app to GitHub Pages → Run workflow**에서 `main`을 선택해 실행합니다. Pages가 아직 켜지지 않은 상태에서 실패한 실행은 활성화 후 다시 실행하면 됩니다. 배포 작업이 성공한 뒤 웹 주소로 접속하세요. 저장소 요금제/공개 범위에 따라 Pages 사용 가능 여부가 달라질 수 있습니다.
+
+이후 main 변경 시 `.github/workflows/pages.yml`이 자동 테스트 후 웹 파일만 배포합니다. 테스트 fixture와 개발 문서는 배포물에서 제외합니다. 배포 주소에서는 HTTPS로 외부 PokéAPI/이미지 서버에 직접 접속합니다.
+
 ## 실행
 
 Node 24 및 Python 3 환경에서 `/workspace/pokestudy`로 이동해 `npm start`를 실행합니다. 별도 앱 패키지 설치나 빌드 과정은 없습니다. HTTP 서버의 8000번 포트로 접속하세요. `file://`는 ES 모듈과 JSON 로드 제약으로 지원하지 않습니다.

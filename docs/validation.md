@@ -12,3 +12,7 @@
 - 실서비스 요청: raw.githubusercontent.com 스프라이트 HTTP 200. pokeapi.co CONNECT 403(Domain forbidden): 라이브 PokéAPI 기능 검증 차단. 환경 설정 초안에 pokeapi.co 허용을 추가했으며 실제 적용/재시험은 남아 있다.
 
 미검증: 실제 Safari/Android, 실제 펜/음성, 실서비스에서 1~9세대 전체 로드, 최종 아트/마스크 기반 가림 상한, 네이티브 4K 선명도. 사용자 설정 적용 후 라이브 API를 재검증해야 한다.
+
+## GitHub Pages 경로 검증
+
+`BASE_URL=http://127.0.0.1:8001/pokestudy/ python tests/browser_smoke.py`로 프로젝트 하위 경로를 재현했다. 12개 플레이 흐름과 학습 회귀 검사가 모두 통과했다. 단위 검사 9개도 통과했다. GitHub Pages 설정 API는 Forbidden을 반환해 원격 활성화/배포 성공은 확인하지 못했다. 저장소 Settings → Pages에서 GitHub Actions를 선택하고 배포 workflow를 실행해야 한다.

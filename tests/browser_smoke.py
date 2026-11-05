@@ -21,7 +21,7 @@ with sync_playwright() as pw:
    route.fulfill(json=data)
   page.route('https://pokeapi.co/**',api)
   page.route('https://raw.githubusercontent.com/**',lambda r:r.fulfill(body=sprite,content_type='image/png'))
-  page.goto('http://127.0.0.1:8000');page.wait_for_selector('#homeModule:not(.hidden)')
+  page.goto(os.environ.get('BASE_URL','http://127.0.0.1:8000/'));page.wait_for_selector('#homeModule:not(.hidden)')
   # Explicit fixture population avoids 300 live requests and makes species assertions deterministic.
   page.evaluate('''localStorage.setItem('pokedexHiddenCandidatesV1',JSON.stringify(Array.from({length:60},(_,i)=>({id:i+1,name:'테스트'+(i+1),types:['grass'],image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i+1}.png`,fallback:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i+1}.png`}))));''')
   page.locator('nav [data-module="hideModule"]').click()

@@ -122,7 +122,7 @@ import {placePokemon} from './placement.js';
 
     sceneReady=false;foundIds.clear();images.clear();placedOrder=[];
     const canvas=$h('hideScene'),ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
-    forestScene=theme==='forest'?await loadScene('/public/assets/forest/scene-01/scene.json'):null;
+    forestScene=theme==='forest'?await loadScene(new URL('../../../public/assets/forest/scene-01/scene.json', import.meta.url).href):null;
     sceneBackground=forestScene?.backgroundImage??null;
     if(theme==='forest'&&!sceneBackground)throw new Error('숲속 배경을 불러오지 못했어요. 다시 시도해 주세요.');
     // Place Pokémon in varied natural-looking areas rather than a rigid grid.
