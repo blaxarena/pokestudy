@@ -1,5 +1,5 @@
 export const WIDTH = 1672, HEIGHT = 941, MAX_OBJECTS = 200;
-export const createLayout = () => ({version:1,sceneId:'forest-01',canvas:{width:WIDTH,height:HEIGHT},background:'background',objects:[]});
+export const createLayout = (sceneId='forest-01') => ({version:1,sceneId,canvas:{width:WIDTH,height:HEIGHT},background:'background',objects:[]});
 export function objectSize(object,asset){
  const box=asset.visibleBounds??[0,0,asset.width,asset.height];
  return {width:object.width,height:object.width*WIDTH/HEIGHT*(box[3]-box[1])/(box[2]-box[0])};
@@ -12,9 +12,9 @@ export function constrain(object,asset){
 }
 export function scenePoint(clientX,clientY,rect){return {x:(clientX-rect.left)/rect.width,y:(clientY-rect.top)/rect.height};}
 export function ordered(objects){return [...objects].sort((a,b)=>a.zIndex-b.zIndex);}
-export function validateLayout(input,assets){
- const fail=()=>{throw new Error('숲속 배치 JSON 형식을 확인해 주세요.');};
- if(!input||input.version!==1||input.sceneId!=='forest-01'||input.background!=='background'||input.canvas?.width!==WIDTH||input.canvas?.height!==HEIGHT||!Array.isArray(input.objects)||input.objects.length>MAX_OBJECTS)fail();
+export function validateLayout(input,assets,sceneId='forest-01'){
+ const fail=()=>{throw new Error('선택한 테마의 배치 JSON 형식을 확인해 주세요.');};
+ if(!input||input.version!==1||input.sceneId!==sceneId||input.background!=='background'||input.canvas?.width!==WIDTH||input.canvas?.height!==HEIGHT||!Array.isArray(input.objects)||input.objects.length>MAX_OBJECTS)fail();
  const ids=new Set();
  const objects=input.objects.map((o,index)=>{
   if(!o||typeof o.id!=='string'||!o.id||o.id.length>100||ids.has(o.id)||!assets.has(o.assetId)||!assets.get(o.assetId).transparent)fail();
@@ -23,5 +23,5 @@ export function validateLayout(input,assets){
   if(typeof o.hidden!=='boolean'||typeof o.flipX!=='boolean'||!Number.isFinite(o.opacity)||o.opacity<.2||o.opacity>1)fail();
   return constrain({id:o.id,assetId:o.assetId,x:o.x,y:o.y,width:o.width,zIndex:o.zIndex,hidden:o.hidden,flipX:o.flipX,opacity:o.opacity},assets.get(o.assetId));
  });
- return {...createLayout(),objects:ordered(objects).map((o,index)=>({...o,zIndex:index}))};
+ return {...createLayout(sceneId),objects:ordered(objects).map((o,index)=>({...o,zIndex:index}))};
 }

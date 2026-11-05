@@ -1,9 +1,14 @@
+import {editorTheme} from './themes.js';
 import {WIDTH,HEIGHT,MAX_OBJECTS,createLayout,objectSize,constrain,scenePoint,ordered,validateLayout} from './model.js';
 const $=id=>document.getElementById(id),canvas=$('stage'),ctx=canvas.getContext('2d');
-const manifestURL=new URL('../asset-packages/forest-01/manifest.json',import.meta.url);
-const STORE='pokestudy-forest-editor-v1';
+const theme=editorTheme(location.search);
+const manifestURL=new URL(`../asset-packages/${theme.sceneId}/manifest.json`,import.meta.url);
+const STORE=`pokestudy-${theme.key}-editor-v1`;
+document.documentElement.dataset.theme=theme.key;document.title=theme.title;document.querySelector('h1').textContent=theme.title;$('workspaceTitle').textContent=`${theme.name} 배경`;$('themePicker').value=theme.key;$('assetGallery').href=new URL('./',manifestURL).href;canvas.setAttribute('aria-label',`${theme.name} 장면 배치 영역. 에셋을 선택하고 방향키로 옮길 수 있습니다.`);
+$('category').replaceChildren(...Object.entries({all:'전체',...theme.categories}).map(([value,label])=>{const option=document.createElement('option');option.value=value;option.textContent=label;return option;}));
+$('themePicker').onchange=()=>{flushSave();location.href=new URL(`./?theme=${$('themePicker').value}`,import.meta.url).href;};
 const labels={'tree-hollow':'구멍 있는 큰 나무','tree-branching':'가지가 뻗은 나무','tree-small':'작은 나무','tree-round':'둥근 나무','tree-wide':'넓게 퍼진 나무','bridge':'나무다리','log':'통나무','stump':'그루터기','mushroom-large':'큰 버섯','mushroom-small':'작은 버섯','rock-moss':'이끼 바위','rock-round':'둥근 바위','rock-cave':'구멍 바위','grass-wide':'넓은 잎 풀','grass-tall':'키 큰 풀','grass-short':'낮은 풀','grass-sparse':'성긴 풀','grass-reeds':'물가 풀','grass-curled':'굽은 잎 풀','bush-round':'둥근 수풀','bush-wide':'넓은 수풀','bush-yellow':'노란 꽃 수풀','bush-white':'흰 꽃 수풀','bush-light':'밝은 수풀','flowers-pink':'분홍 꽃','flowers-purple':'보라 꽃','flowers-yellow':'노란 꽃','flowers-white':'흰 꽃','flowers-tall-pink':'키 큰 분홍 꽃','flowers-mixed':'분홍·노란 꽃','fern-spread':'퍼진 고사리','fern-upright':'곧은 고사리','plant-broadleaf':'큰 잎 식물','plant-berries':'빨간 열매','vine':'덩굴'};
-let assets=new Map(),images=new Map(),layout=createLayout(),selectedId=null,past=[],future=[],gesture=null,rangeBase=null,ready=false,busy=false,saveTimer,dirty=false;
+let assets=new Map(),images=new Map(),layout=createLayout(theme.sceneId),selectedId=null,past=[],future=[],gesture=null,rangeBase=null,ready=false,busy=false,saveTimer,dirty=false;
 const clone=value=>JSON.parse(JSON.stringify(value));
 const selected=()=>layout.objects.find(o=>o.id===selectedId);
 const snapshot=()=>({layout:clone(layout),selectedId});
@@ -65,7 +70,7 @@ function redo(){if(!ready||busy)return;finishRange();if(!future.length)return;pa
 async function addAsset(assetId,point={x:.5,y:.55}){
  if(!ready||busy)return;if(layout.objects.length>=MAX_OBJECTS){say(`한 장면에 최대 ${MAX_OBJECTS}개까지 놓을 수 있어요.`);return;}
  setBusy(true);say(`${labels[assetId]} 불러오는 중…`);
- try{await loadAsset(assetId);setBusy(false);change(()=>{const asset=assets.get(assetId),width=asset.category==='trees' ? .23 : asset.category==='props' ? .20 : .15;const temp={id:crypto.randomUUID(),assetId,x:point.x,y:point.y,width,zIndex:Math.max(-1,...layout.objects.map(o=>o.zIndex))+1,opacity:1,flipX:false,hidden:false};const size=objectSize(temp,asset);const object=constrain({...temp,x:point.x-size.width/2,y:point.y-size.height/2},asset);layout.objects.push(object);selectedId=object.id;});say(`${labels[assetId]}을 놓았어요. 그림에서 끌어 위치를 바꿔 보세요.`);}catch(e){say(e.message);}finally{setBusy(false);}
+ try{await loadAsset(assetId);setBusy(false);change(()=>{const asset=assets.get(assetId),width=(asset.category==='trees'||asset.category==='palms') ? .23 : asset.category==='props' ? .20 : .15;const temp={id:crypto.randomUUID(),assetId,x:point.x,y:point.y,width,zIndex:Math.max(-1,...layout.objects.map(o=>o.zIndex))+1,opacity:1,flipX:false,hidden:false};const size=objectSize(temp,asset);const object=constrain({...temp,x:point.x-size.width/2,y:point.y-size.height/2},asset);layout.objects.push(object);selectedId=object.id;});say(`${labels[assetId]}을 놓았어요. 그림에서 끌어 위치를 바꿔 보세요.`);}catch(e){say(e.message);}finally{setBusy(false);}
 }
 function palette(){
  const category=$('category').value;$('assetList').replaceChildren();
@@ -112,12 +117,12 @@ $('duplicate').onclick=()=>change(()=>{const o=selected();if(!o)return;if(layout
 function reorder(direction){change(()=>{const sorted=ordered(layout.objects),i=sorted.findIndex(o=>o.id===selectedId),j=i+direction;if(i<0||j<0||j>=sorted.length)return;[sorted[i],sorted[j]]=[sorted[j],sorted[i]];layout.objects=sorted.map((o,index)=>({...o,zIndex:index}));});}
 $('forward').onclick=()=>reorder(1);$('backward').onclick=()=>reorder(-1);
 function download(blob,filename){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}
-function saveJSON(){if(!ready||busy)return;finishRange();download(new Blob([JSON.stringify(layout,null,2)],{type:'application/json'}),'forest-layout.json');say('배치 JSON을 저장했어요. 이 파일을 불러오면 다시 편집할 수 있어요.');}
+function saveJSON(){if(!ready||busy)return;finishRange();download(new Blob([JSON.stringify(layout,null,2)],{type:'application/json'}),`${theme.key}-layout.json`);say('배치 JSON을 저장했어요. 이 파일을 불러오면 다시 편집할 수 있어요.');}
 $('saveJson').onclick=saveJSON;
-$('savePng').onclick=async()=>{if(!ready||busy)return;setBusy(true);try{finishRange();const out=document.createElement('canvas');out.width=WIDTH;out.height=HEIGHT;drawScene(out.getContext('2d'),false);const blob=await new Promise(resolve=>out.toBlob(resolve,'image/png'));if(!blob)throw Error('이미지를 저장하지 못했어요. 다시 시도해 주세요.');download(blob,'forest-layout.png');say('선택 테두리가 없는 완성 이미지를 PNG로 저장했어요.');}catch(e){say(e.message);}finally{setBusy(false);}};
+$('savePng').onclick=async()=>{if(!ready||busy)return;setBusy(true);try{finishRange();const out=document.createElement('canvas');out.width=WIDTH;out.height=HEIGHT;drawScene(out.getContext('2d'),false);const blob=await new Promise(resolve=>out.toBlob(resolve,'image/png'));if(!blob)throw Error('이미지를 저장하지 못했어요. 다시 시도해 주세요.');download(blob,`${theme.key}-layout.png`);say('선택 테두리가 없는 완성 이미지를 PNG로 저장했어요.');}catch(e){say(e.message);}finally{setBusy(false);}};
 $('loadJson').onchange=async e=>{
  const file=e.target.files[0];e.target.value='';if(!file||busy)return;setBusy(true);
- try{if(file.size>1024*1024)throw Error('JSON 파일은 1MB 이하만 불러올 수 있어요.');const next=validateLayout(JSON.parse(await file.text()),assets);await Promise.all([...new Set(next.objects.map(o=>o.assetId))].map(loadAsset));setBusy(false);change(()=>{layout=next;selectedId=null;});say('배치 JSON을 불러왔어요. 에셋을 골라 계속 편집하세요.');}catch(e){say(e instanceof SyntaxError?'JSON 파일을 읽지 못했어요. 배치 JSON 파일을 선택해 주세요.':e.message);}finally{setBusy(false);}
+ try{if(file.size>1024*1024)throw Error('JSON 파일은 1MB 이하만 불러올 수 있어요.');const next=validateLayout(JSON.parse(await file.text()),assets,theme.sceneId);await Promise.all([...new Set(next.objects.map(o=>o.assetId))].map(loadAsset));setBusy(false);change(()=>{layout=next;selectedId=null;});say('배치 JSON을 불러왔어요. 에셋을 골라 계속 편집하세요.');}catch(e){say(e instanceof SyntaxError?'JSON 파일을 읽지 못했어요. 배치 JSON 파일을 선택해 주세요.':e.message);}finally{setBusy(false);}
 };
 document.addEventListener('keydown',e=>{
  if(!ready||busy||gesture||e.target.closest('input,select,textarea,[contenteditable=true]'))return;
@@ -132,8 +137,8 @@ document.addEventListener('keydown',e=>{
 });
 new ResizeObserver(paint).observe(canvas);
 async function start(){
- try{const response=await fetch(manifestURL);if(!response.ok)throw Error('에셋 목록을 불러오지 못했어요. 새로고침해 주세요.');const manifest=await response.json();assets=new Map(manifest.assets.map(a=>[a.id,a]));await loadAsset('background');let restored=false;
-  try{const saved=localStorage.getItem(STORE);if(saved){const next=validateLayout(JSON.parse(saved),assets);await Promise.all([...new Set(next.objects.map(o=>o.assetId))].map(loadAsset));layout=next;restored=true;$('storageStatus').textContent='이 브라우저에 자동 저장됨 · 마지막 배치를 복원했습니다.';}}catch{$('storageStatus').textContent='이전 배치를 복원하지 못했어요. 보관한 JSON 파일이 있다면 불러와 주세요.';}
+ try{const response=await fetch(manifestURL);if(!response.ok)throw Error('에셋 목록을 불러오지 못했어요. 새로고침해 주세요.');const manifest=await response.json();assets=new Map(manifest.assets.map(a=>[a.id,a]));for(const a of manifest.assets)if(a.label)labels[a.id]=a.label;await loadAsset('background');let restored=false;
+  try{const saved=localStorage.getItem(STORE);if(saved){const next=validateLayout(JSON.parse(saved),assets,theme.sceneId);await Promise.all([...new Set(next.objects.map(o=>o.assetId))].map(loadAsset));layout=next;restored=true;$('storageStatus').textContent='이 브라우저에 자동 저장됨 · 마지막 배치를 복원했습니다.';}}catch{$('storageStatus').textContent='이전 배치를 복원하지 못했어요. 보관한 JSON 파일이 있다면 불러와 주세요.';}
   ready=true;palette();for(const id of ['saveJson','savePng','loadJson'])$(id).disabled=false;updateUI();say(restored?'이 브라우저에 저장된 배치를 복원했어요.':'준비됐어요! 왼쪽 에셋을 눌러 배경에 놓아 보세요.');
  }catch(e){say(e.message||'편집기를 준비하지 못했어요. 새로고침해 주세요.');}
 }
