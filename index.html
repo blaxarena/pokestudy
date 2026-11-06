@@ -126,6 +126,63 @@ a{color:#1f5fae}
 }
 
 .hide-target::after{content:'\00a0';display:block;font-size:.76rem;font-weight:900}
+/* Flexible learning workspace; only the hidden-picture canvas stays 16:9. */
+.shell{max-width:1520px;padding:16px clamp(10px,2vw,24px) 28px}
+.topbar{margin:0 0 12px}.topbar h1{font-size:clamp(1.4rem,2.4vw,2rem)}
+.app-nav{gap:8px;margin-bottom:12px}.nav-btn{min-height:48px}
+button,.btn,.file-button{touch-action:manipulation}
+.btn,.difficulty-choice,.palette-swatch{min-height:44px}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #2369b1;outline-offset:3px}
+.canvas-layout,.quiz-layout,.write-layout{min-width:0}
+#hideGame{padding:14px}.hide-game-controls{display:flex;flex-wrap:wrap;gap:8px}
+#hideGame>.quiz-head{gap:8px}#hideGame .section-title{margin-bottom:6px}
+#hideGame>.quiz-head .hint{margin:0}
+.hide-game-layout{grid-template-columns:minmax(0,1fr) 240px;align-items:start;gap:12px;margin-top:12px}
+.hide-sidebar{gap:8px}.hide-target-card{padding:8px}.hide-target-card>h3.section-title{font-size:.9rem;padding:6px!important;margin:0 0 6px!important}
+.hide-target-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.hide-target{padding:3px 2px}.hide-target img{height:46px;filter:none}.hide-target strong{font-size:.72rem}
+.hide-target::after,.hide-target.found::after{font-size:.65rem;line-height:1.2}
+.hide-answer-card{margin:0;padding:0}.hide-answer-card .btn{min-height:46px;border-radius:12px;font-size:.9rem;box-shadow:none}
+.hide-answer-card .hide-status{margin:6px 0}.hide-status{margin-top:6px}
+.hide-scene-wrap{align-self:start}.hide-scene-title{font-size:.9rem}.hide-legend{line-height:1.4}
+@media(max-width:1099px){
+ .hide-game-layout{grid-template-columns:1fr}
+ .hide-sidebar{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+ .hide-target-card{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center}
+ .hide-target-card>h3.section-title{background:none!important;color:var(--ink)!important;text-align:left!important;padding:0!important;margin:0!important;font-size:.8rem}
+ #hideFoundStatus{margin:0;font-size:.78rem}
+ .hide-target-grid{grid-row:2;grid-column:1/-1;display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:3px}
+ .hide-target{flex:0 0 72px}.hide-target img{height:40px}
+ .hide-answer-card{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;align-items:start}
+ #hideAgainBtn{margin-top:0!important}#hideAnswerStatus{grid-column:1/-1;grid-row:2;font-size:.76rem;margin:0}
+}
+@media(min-width:1100px){
+ .hide-target-grid{max-height:52dvh;overflow-y:auto}
+ .canvas-layout .reference-stage{min-height:360px}.reference-stage img{height:clamp(320px,48dvh,560px)}
+ .draw-stage{height:clamp(400px,60dvh,640px)}.writing-pad{height:clamp(380px,55dvh,620px)}
+}
+@media(max-width:900px){
+ .app-nav{grid-template-columns:repeat(5,minmax(0,1fr))}.nav-btn{font-size:.8rem;padding:9px 4px}
+ .dex-frame{padding:8px}.dex-top{padding-bottom:8px}.panel{padding:14px}
+ .topbar .subtitle{font-size:.8rem}.topbar .pokeball{width:36px;height:36px}
+ .canvas-layout,.write-layout{grid-template-columns:1fr}.reference-stage{min-height:240px}.reference-stage img{height:260px}
+ .write-pokemon{display:grid;grid-template-columns:100px 1fr;align-items:center;text-align:left;gap:8px}.write-pokemon img{height:100px;grid-row:span 2}.write-pokemon h3{align-self:end}.write-pokemon p{align-self:start}
+}
+@media(max-width:600px){
+ .app-nav{display:flex;overflow-x:auto;padding-bottom:4px}.nav-btn{flex:0 0 auto;min-width:90px;padding:10px 8px}
+ .topbar{gap:8px}.subtitle{display:none}.shell{padding:10px 8px 20px}
+ #hideGame{padding:9px}.hide-game-controls{width:100%;display:grid;grid-template-columns:1fr 1fr}.hide-game-controls .btn{font-size:.8rem;padding:9px 6px}
+ .hide-scene-wrap{padding:5px}.hide-scene-title{font-size:.8rem}.hide-legend{font-size:.75rem}
+}
+/* Focus mode keeps targets and controls available, without relying on OS fullscreen. */
+body.game-focus{overflow:hidden}
+.game-focus .topbar,.game-focus .app-nav,.game-focus footer,.game-focus #hideModule>.dex-top{display:none}
+.game-focus #hideGame{position:fixed;inset:0;z-index:100;background:#fff;overflow:auto;overscroll-behavior:contain;border:0;border-radius:0;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));margin:0}
+.game-focus #hideGame>.quiz-head .hint{display:none}
+.game-focus .hide-scene{max-width:var(--scene-fit-width,100%);margin-inline:auto}
+.game-focus .hide-target-grid{max-height:calc(100dvh - 300px)}
+@media(max-width:1099px){.game-focus .hide-target-grid{max-height:none}.game-focus .hide-game-layout{margin-top:8px;gap:8px}}
+
 </style>
 </head>
 <body>
@@ -307,7 +364,7 @@ a{color:#1f5fae}
         <div id="hideLoadStatus" class="status" role="status" aria-live="polite">포켓몬 그림과 이름은 PokéAPI 자료를 이용합니다. 처음 시작할 때는 인터넷 연결이 필요해요.</div>
       </section>
       <section id="hideGame" class="panel hidden">
-        <div class="quiz-head"><div><h2 class="section-title" id="hideGameTitle">숲속 숨은그림찾기</h2><p class="hint">그림 속 포켓몬을 찾아보세요. 틀려도 괜찮아요!</p></div><button id="hideBackBtn" class="btn secondary">장소·난이도 변경</button></div>
+        <div class="quiz-head"><div><h2 class="section-title" id="hideGameTitle">숲속 숨은그림찾기</h2><p class="hint">그림 속 포켓몬을 찾아보세요. 틀려도 괜찮아요!</p></div><div class="hide-game-controls"><button id="hideFocusBtn" class="btn outline" aria-pressed="false" aria-controls="hideGame">⛶ 게임 크게 보기</button><button id="hideBackBtn" class="btn secondary">장소·난이도 변경</button></div></div>
         <div class="hide-game-layout">
           <div class="hide-scene-wrap">
             <p class="hide-scene-title">🔍 숨은 포켓몬을 찾아보세요!</p>
@@ -736,5 +793,6 @@ $("retryWrong").addEventListener("click",()=>{
 
 <script type="module" src="./src/modules/hidden-picture/engine.js?v=user-forest-01"></script>
 
+<script type="module" src="./src/modules/hidden-picture/viewport.js"></script>
 </body>
 </html>
