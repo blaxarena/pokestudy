@@ -1,0 +1,549 @@
+{
+  "id": "sea-wailord-01-independent-assets",
+  "sceneId": "sea-wailord-01",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "summary": "고래왕 섬 배경 · 바다 독립 투명 에셋 15종 · 1672×941px",
+  "assets": [
+    {
+      "id": "background",
+      "file": "background/wailord-island.png",
+      "label": "고래왕 섬",
+      "transparent": false,
+      "category": "background",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2832586,
+      "sha256": "4a42321e5dde080ddb612818c5f3c5df6316de13acb0c85475838bf87efcedba",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet."
+    },
+    {
+      "id": "palm-tall",
+      "file": "../sea-01/palms/palm-tall.png",
+      "label": "키 큰 야자수",
+      "transparent": true,
+      "category": "palms",
+      "width": 1672,
+      "height": 941,
+      "bytes": 616481,
+      "sha256": "78e8333573984fcf9366b862508935c97f5c6e527ea1d8738ca98f9f88a309b1",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.87902,
+      "visibleBounds": [
+        548,
+        107,
+        1122,
+        838
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.499402,
+        "y": 0.890542
+      }
+    },
+    {
+      "id": "palm-leaning",
+      "file": "../sea-01/palms/palm-leaning.png",
+      "label": "기울어진 야자수",
+      "transparent": true,
+      "category": "palms",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1128697,
+      "sha256": "db192608357ff7f5946e7c8d4350e1ee03b71db23e2218e8c4157c20cd43a791",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.76255,
+      "visibleBounds": [
+        307,
+        75,
+        1394,
+        866
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.508672,
+        "y": 0.920298
+      }
+    },
+    {
+      "id": "coastal-rock",
+      "file": "../sea-01/rocks/coastal-rock.png",
+      "label": "큰 해안 바위",
+      "transparent": true,
+      "category": "rocks",
+      "width": 1672,
+      "height": 941,
+      "bytes": 2047973,
+      "sha256": "22df947e1d7addc96cd1618605b8a9a84f648e27c1ce07cdd7dfa6fb447fafd7",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.54733,
+      "visibleBounds": [
+        191,
+        116,
+        1480,
+        851
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.499701,
+        "y": 0.904357
+      }
+    },
+    {
+      "id": "rock-arch",
+      "file": "../sea-01/rocks/rock-arch.png",
+      "label": "구멍 있는 해안 바위",
+      "transparent": true,
+      "category": "rocks",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1627498,
+      "sha256": "fa70365425e6d3b0378b372a2991b7b8ec02b20f7fca4216d404a540f1cb9579",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.62347,
+      "visibleBounds": [
+        84,
+        102,
+        1592,
+        852
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.501196,
+        "y": 0.90542
+      }
+    },
+    {
+      "id": "rock-small",
+      "file": "../sea-01/rocks/rock-small.png",
+      "label": "작은 물가 바위",
+      "transparent": true,
+      "category": "rocks",
+      "width": 1672,
+      "height": 941,
+      "bytes": 763651,
+      "sha256": "e8b83fe69f0bd224faf990b34cc165fdd16f90cf2868533d6963351ddab7c128",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.81385,
+      "visibleBounds": [
+        382,
+        280,
+        1233,
+        713
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.482955,
+        "y": 0.757705
+      }
+    },
+    {
+      "id": "beach-grass",
+      "file": "../sea-01/plants/beach-grass.png",
+      "label": "해변 풀",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1094371,
+      "sha256": "e73625c9cd4c0b3b399da98b4586222d94c562eef8114575fdc4434054c989ff",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.74575,
+      "visibleBounds": [
+        258,
+        70,
+        1404,
+        868
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.49701,
+        "y": 0.922423
+      }
+    },
+    {
+      "id": "beach-shrub",
+      "file": "../sea-01/plants/beach-shrub.png",
+      "label": "낮은 해안 수풀",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1407174,
+      "sha256": "35b476310b8db665fe5db6c1e6118932d200ff049f18d201a5de3c7d773ab633",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.68158,
+      "visibleBounds": [
+        143,
+        162,
+        1526,
+        777
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.499103,
+        "y": 0.825717
+      }
+    },
+    {
+      "id": "seaweed",
+      "file": "../sea-01/plants/seaweed.png",
+      "label": "얕은 바다 해초",
+      "transparent": true,
+      "category": "plants",
+      "width": 1672,
+      "height": 941,
+      "bytes": 658476,
+      "sha256": "cd5cdd1b3c9e1e8bc5378fb883300364c69eb0110a00645a085811a6e858420b",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.8503,
+      "visibleBounds": [
+        386,
+        90,
+        1186,
+        844
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.470096,
+        "y": 0.896918
+      }
+    },
+    {
+      "id": "shell-fan",
+      "file": "../sea-01/shells/shell-fan.png",
+      "label": "부채 조개",
+      "transparent": true,
+      "category": "shells",
+      "width": 1672,
+      "height": 941,
+      "bytes": 999027,
+      "sha256": "fc38c68055ee5fd57625f26f3ca8d84e5051acb80e23ba89d279906bbb258d5c",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.74339,
+      "visibleBounds": [
+        437,
+        127,
+        1217,
+        812
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.494617,
+        "y": 0.862912
+      }
+    },
+    {
+      "id": "shell-spiral",
+      "file": "../sea-01/shells/shell-spiral.png",
+      "label": "소라 껍데기",
+      "transparent": true,
+      "category": "shells",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1135921,
+      "sha256": "b7e77ddfaec8711f602785ee17d3c448bf548adb3d35a5647838a0c2092704dc",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.69677,
+      "visibleBounds": [
+        301,
+        116,
+        1354,
+        831
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.494916,
+        "y": 0.883103
+      }
+    },
+    {
+      "id": "starfish",
+      "file": "../sea-01/shells/starfish.png",
+      "label": "불가사리",
+      "transparent": true,
+      "category": "shells",
+      "width": 1672,
+      "height": 941,
+      "bytes": 552213,
+      "sha256": "478879b400674b0593336e5b7305043a96be668873469fdaaaa3b325eb6e5944",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.86191,
+      "visibleBounds": [
+        471,
+        126,
+        1194,
+        797
+      ],
+      "cornerAlpha": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.497907,
+        "y": 0.846971
+      }
+    },
+    {
+      "id": "coral-branch",
+      "file": "../sea-01/corals/coral-branch.png",
+      "label": "가지 산호",
+      "transparent": true,
+      "category": "corals",
+      "width": 1672,
+      "height": 941,
+      "bytes": 914836,
+      "sha256": "5a15e437e31f33295d6c74bfa205aed267d7816cdf36b136341df274aee141c0",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.77719,
+      "visibleBounds": [
+        404,
+        55,
+        1269,
+        878
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.500299,
+        "y": 0.93305
+      }
+    },
+    {
+      "id": "coral-round",
+      "file": "../sea-01/corals/coral-round.png",
+      "label": "둥근 산호",
+      "transparent": true,
+      "category": "corals",
+      "width": 1672,
+      "height": 941,
+      "bytes": 959439,
+      "sha256": "e58e1401c522691dca2a943d1f4726a3e473504a80879ff43c328df86c6ec12e",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.76712,
+      "visibleBounds": [
+        395,
+        188,
+        1271,
+        759
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.498206,
+        "y": 0.806589
+      }
+    },
+    {
+      "id": "driftwood",
+      "file": "../sea-01/props/driftwood.png",
+      "label": "해변 통나무",
+      "transparent": true,
+      "category": "props",
+      "width": 1672,
+      "height": 941,
+      "bytes": 896023,
+      "sha256": "8c7703fb55dee2901b0b044f0ef527045478a50e516b4270502f851c9cb477aa",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.79967,
+      "visibleBounds": [
+        102,
+        231,
+        1576,
+        683
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.501794,
+        "y": 0.725824
+      }
+    },
+    {
+      "id": "rowboat",
+      "file": "../sea-01/props/rowboat.png",
+      "label": "작은 나무배",
+      "transparent": true,
+      "category": "props",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1483747,
+      "sha256": "93db963e39e68f1d244b79eed03016e750b8fc9e11f0820e833b53fbdd017a15",
+      "reviewRequired": false,
+      "provenance": "Individually generated; not cut from a composite asset sheet.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.64937,
+      "visibleBounds": [
+        242,
+        102,
+        1409,
+        865
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 1,
+      "anchor": {
+        "x": 0.49372,
+        "y": 0.919235
+      }
+    }
+  ]
+}
