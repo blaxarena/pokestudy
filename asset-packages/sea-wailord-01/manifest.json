@@ -5,7 +5,7 @@
     "width": 1672,
     "height": 941
   },
-  "summary": "고래왕 섬 배경 · 바다 독립 투명 에셋 15종 · 1672×941px",
+  "summary": "고래왕 섬 배경 · 바다 독립 투명 에셋 17종 · 1672×941px",
   "assets": [
     {
       "id": "background",
@@ -543,6 +543,76 @@
       "anchor": {
         "x": 0.49372,
         "y": 0.919235
+      }
+    },
+    {
+      "id": "fish-tropical",
+      "file": "../sea-01/fish/fish-tropical.png",
+      "label": "노랑 줄무늬 물고기",
+      "transparent": true,
+      "category": "fish",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1330216,
+      "sha256": "1bffa497cd430afb56802588536c30109a74b737bca0006137c7f687c0e97da5",
+      "reviewRequired": false,
+      "provenance": "Individually generated ordinary fish; not Pokemon.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.63759,
+      "visibleBounds": [
+        289,
+        117,
+        1363,
+        854
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.494019,
+        "y": 0.907545
+      }
+    },
+    {
+      "id": "fish-blue",
+      "file": "../sea-01/fish/fish-blue.png",
+      "label": "파란 물고기",
+      "transparent": true,
+      "category": "fish",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1126311,
+      "sha256": "5a922ec3cc1d4fc909c86189af440b1c1a32b6b632ae2ea2cb4ee0056cf3a73d",
+      "reviewRequired": false,
+      "provenance": "Individually generated ordinary fish; not Pokemon.",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentPixelRatio": 0.74109,
+      "visibleBounds": [
+        287,
+        184,
+        1385,
+        752
+      ],
+      "cornerAlpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "borderMaxAlpha": 0,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.79915
       }
     }
   ]

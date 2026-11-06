@@ -26,7 +26,7 @@ with sync_playwright() as pw,TemporaryDirectory() as tmp:
   page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(f'http://127.0.0.1:{server.server_port}/{root.name}/editor/?theme={theme}')
   page.wait_for_function("document.querySelector('#saveJson').disabled===false")
-  assert page.locator('.asset-button').count()==(35 if theme=='forest' else 15)
+  assert page.locator('.asset-button').count()==(35 if theme=='forest' else 17)
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
   def saved():
    page.wait_for_function("document.querySelector('#storageStatus').textContent.includes('자동 저장됨')")

@@ -68,4 +68,4 @@ Node 24 및 Python 3 환경에서 `/workspace/pokestudy`로 이동해 `npm start
 
 편집기에서 숲속/바다를 전환할 수 있으며 자동 저장은 테마별로 분리됩니다. 바다는 `sea-layout.json`으로 저장합니다. 배치를 완성한 JSON을 제공하면 숲속과 같은 방식으로 바다 숨은그림찾기에 연결할 수 있습니다. 기존 바다 게임은 아직 이 새 배치를 사용하지 않습니다.
 
-고래왕 섬 배경은 [고래왕 섬 꾸미기](https://blaxarena.github.io/pokestudy/editor/?theme=sea-wailord)에서 이용합니다. 바다 에셋 15종을 공유하며 모래사장과 별도로 자동 저장됩니다. 내보내는 파일은 `sea-wailord-layout.json`이고 장면 id는 `sea-wailord-01`입니다.
+고래왕 섬 배경은 [고래왕 섬 꾸미기](https://blaxarena.github.io/pokestudy/editor/?theme=sea-wailord)에서 이용합니다. 바다 에셋 17종을 공유하며 모래사장과 별도로 자동 저장됩니다. 내보내는 파일은 `sea-wailord-layout.json`이고 장면 id는 `sea-wailord-01`입니다.
