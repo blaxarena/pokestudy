@@ -1,16 +1,16 @@
 import {validateLayout,objectSize} from '../../../editor/model.js';
 import {spriteSamples,measureOcclusion} from './occlusion.js';
 const sceneCache=new Map(),imageCache=new Map();
-async function getJSON(url){const response=await fetch(url);if(!response.ok)throw new Error('배치한 숲속 장면을 불러오지 못했어요. 다시 시도해 주세요.');return response.json();}
+async function getJSON(url){const response=await fetch(url);if(!response.ok)throw new Error('배치한 장면을 불러오지 못했어요. 다시 시도해 주세요.');return response.json();}
 function loadImage(url){
- if(!imageCache.has(url))imageCache.set(url,new Promise((resolve,reject)=>{const im=new Image();const timer=setTimeout(()=>{im.onload=im.onerror=null;reject(new Error('숲속 에셋 로딩이 지연되고 있어요. 다시 시도해 주세요.'));},20000);im.onload=()=>{clearTimeout(timer);resolve(im);};im.onerror=()=>{clearTimeout(timer);reject(new Error('숲속 에셋을 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.'));};im.src=url;}).catch(error=>{imageCache.delete(url);throw error;}));
+ if(!imageCache.has(url))imageCache.set(url,new Promise((resolve,reject)=>{const im=new Image();const timer=setTimeout(()=>{im.onload=im.onerror=null;reject(new Error('장면 에셋 로딩이 지연되고 있어요. 다시 시도해 주세요.'));},20000);im.onload=()=>{clearTimeout(timer);resolve(im);};im.onerror=()=>{clearTimeout(timer);reject(new Error('장면 에셋을 불러오지 못했어요. 연결을 확인하고 다시 시도해 주세요.'));};im.src=url;}).catch(error=>{imageCache.delete(url);throw error;}));
  return imageCache.get(url);
 }
 export function loadLayoutScene(url){
  if(!sceneCache.has(url))sceneCache.set(url,(async()=>{
   const config=await getJSON(url),base=new URL(url,location.href),manifestURL=new URL(config.assetManifest,base);
   const [source,manifest]=await Promise.all([getJSON(new URL(config.layout,base)),getJSON(manifestURL)]);
-  const assets=new Map(manifest.assets.map(a=>[a.id,a]));const layout=validateLayout(source,assets);
+  const assets=new Map(manifest.assets.map(a=>[a.id,a]));const layout=validateLayout(source,assets,config.sceneId??'forest-01');
   const [backgroundImage,objects]=await Promise.all([loadImage(new URL(assets.get(layout.background).file,manifestURL).href),Promise.all(layout.objects.map(async o=>({...o,metadata:assets.get(o.assetId),image:await loadImage(new URL(assets.get(o.assetId).file,manifestURL).href)})))]);
   const scene={...config,layout,assets,backgroundImage,objects};scene.foregroundMasks=buildMasks(scene);return scene;
  })().catch(error=>{sceneCache.delete(url);throw error;}));

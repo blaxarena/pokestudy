@@ -2,12 +2,14 @@
 Development utility only: requires Pillow and NumPy; output JSON is committed.
 """
 from pathlib import Path
-import json,hashlib
+import json,hashlib,argparse
 import numpy as np
 from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
-DIR=ROOT/'public/assets/forest/scene-01'
-source=DIR/'forest-layout.json';manifest_path=ROOT/'asset-packages/forest-01/manifest.json'
+parser=argparse.ArgumentParser();parser.add_argument('--scene',choices=['forest','sea'],default='forest');args=parser.parse_args()
+DIR=ROOT/f'public/assets/{args.scene}/scene-01'
+scene_id='forest-01' if args.scene=='forest' else 'sea-wailord-01'
+source=DIR/('forest-layout.json' if args.scene=='forest' else 'sea-wailord-layout.json');manifest_path=ROOT/f'asset-packages/{scene_id}/manifest.json'
 layout=json.loads(source.read_text());manifest=json.loads(manifest_path.read_text());assets={a['id']:a for a in manifest['assets']}
 W,H=418,235
 objects=sorted(layout['objects'],key=lambda o:o['zIndex']);alphas=[];rects=[]
@@ -15,7 +17,7 @@ for o in objects:
  a=assets[o['assetId']];b=a['visibleBounds'];width=o['width'];height=width*1672/941*(b[3]-b[1])/(b[2]-b[0]);rects.append((o['x'],o['y'],width,height))
  layer=np.zeros((H,W),np.float32)
  if not o['hidden']:
-  with Image.open(ROOT/'asset-packages/forest-01'/a['file']) as im:
+  with Image.open(manifest_path.parent/a['file']) as im:
    alpha=im.getchannel('A').crop(tuple(b))
    if o['flipX']:alpha=alpha.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
    ww=max(1,round(width*W));hh=max(1,round(height*H));sample=np.asarray(alpha.resize((ww,hh),Image.Resampling.BILINEAR),np.float32)/255*o['opacity']
@@ -59,5 +61,5 @@ for level,count,width,limit,head_limit,targets in [('easy',12,.081,.18,.08,4),('
   rows.append(slots)
  variants[level]=rows
  print(level,':',len(rows),'variants,',count,'Pokemon, partial hiding minimum',min(sum(s['occlusionRatio']>=.025 for s in row) for row in rows))
-config={'id':'forest-01-user-layout','version':2,'logicalSize':layout['canvas'],'layout':'forest-layout.json','assetManifest':'../../../../asset-packages/forest-01/manifest.json','layoutSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'manifestSha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),'variants':variants}
+config={'id':scene_id+'-user-layout','sceneId':scene_id,'version':2,'logicalSize':layout['canvas'],'layout':source.name,'assetManifest':f'../../../../asset-packages/{scene_id}/manifest.json','layoutSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'manifestSha256':hashlib.sha256(manifest_path.read_bytes()).hexdigest(),'variants':variants}
 (DIR/'scene-layout-v1.json').write_text(json.dumps(config,ensure_ascii=False,separators=(',',':'))+'\n')

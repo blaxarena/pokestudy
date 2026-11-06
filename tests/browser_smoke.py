@@ -25,6 +25,7 @@ with sync_playwright() as pw:
   # Explicit fixture population avoids 300 live requests and makes species assertions deterministic.
   page.evaluate('''localStorage.setItem('pokedexHiddenCandidatesV1',JSON.stringify(Array.from({length:60},(_,i)=>({id:i+1,name:'테스트'+(i+1),types:['grass'],image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i+1}.png`,fallback:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i+1}.png`}))));''')
   page.locator('nav [data-module="hideModule"]').click()
+  page.locator(f'[data-theme={os.environ.get("TEST_THEME","forest")}]').click()
   for level,targets,total in [('easy',4,12),('normal',8,25),('hard',12,45)]:
    page.locator(f'[data-level={level}]').click();page.evaluate('window.pokemonDraws=[]');start=time.monotonic();page.locator('#hideStartBtn').click();page.wait_for_selector('#hideGame:not(.hidden)');
    assert page.locator('#hideTargets .hide-target').count()==targets

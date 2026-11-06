@@ -58,7 +58,7 @@ Node 24 및 Python 3 환경에서 `/workspace/pokestudy`로 이동해 `npm start
 
 배치는 현재 브라우저에 자동 저장됩니다. **배치 JSON 저장**으로 파일을 보관하고 **배치 JSON 불러오기**로 다른 기기에서도 이어 편집하세요. **완성 이미지 PNG 저장**은 선택 테두리 없이 1672×941 이미지로 저장합니다. 이 편집기는 배치 시안 제작용이며, 공개 숨은그림찾기 장면을 자동 교체하지 않습니다.
 
-`npm test`는 편집기·게임 관련 검사 31개를 실행합니다. `python tests/editor_browser.py`는 실제 에셋을 사용해 PC/터치·파일 저장/복원을 검사하며 Python Playwright, Pillow, 시스템 Chromium이 필요합니다. 일반 사용자는 설치 없이 위 웹 주소로 이용할 수 있습니다.
+`npm test`는 편집기·게임 관련 검사 39개를 실행합니다. `python tests/editor_browser.py`는 실제 에셋을 사용해 PC/터치·파일 저장/복원을 검사하며 Python Playwright, Pillow, 시스템 Chromium이 필요합니다. 일반 사용자는 설치 없이 위 웹 주소로 이용할 수 있습니다.
 
 ## 제작 범위와 바다 1장
 
@@ -66,6 +66,12 @@ Node 24 및 Python 3 환경에서 `/workspace/pokestudy`로 이동해 `npm start
 
 [바다 배치 편집기](https://blaxarena.github.io/pokestudy/editor/?theme=sea) · [바다 에셋 갤러리](https://blaxarena.github.io/pokestudy/asset-packages/sea-01/)
 
-편집기에서 숲속/바다를 전환할 수 있으며 자동 저장은 테마별로 분리됩니다. 바다는 `sea-layout.json`으로 저장합니다. 배치를 완성한 JSON을 제공하면 숲속과 같은 방식으로 바다 숨은그림찾기에 연결할 수 있습니다. 기존 바다 게임은 아직 이 새 배치를 사용하지 않습니다.
+편집기에서 숲속/바다를 전환할 수 있으며 자동 저장은 테마별로 분리됩니다. 바다는 `sea-layout.json`으로 저장합니다. 배치 JSON을 제공하면 게임 배치를 갱신할 수 있습니다. 바다 게임은 업로드된 고래왕 섬 배치를 사용합니다.
 
 고래왕 섬 배경은 [고래왕 섬 꾸미기](https://blaxarena.github.io/pokestudy/editor/?theme=sea-wailord)에서 이용합니다. 바다 에셋 17종을 공유하며 모래사장과 별도로 자동 저장됩니다. 내보내는 파일은 `sea-wailord-layout.json`이고 장면 id는 `sea-wailord-01`입니다.
+
+## 고래왕 섬 숨은 포켓몬 찾기
+
+[게임 열기](https://blaxarena.github.io/pokestudy/?play=sea) → 난이도 선택 → 시작. 사용자 JSON의 75개 오브젝트와 위치·크기·순서·진하기·뒤집기를 고정합니다. 난이도별 포켓몬 위치만 바뀌며, 쉬움 12마리 중 4마리 / 보통 25마리 중 8마리 / 어려움 45마리 중 12마리를 찾습니다.
+
+`python scripts/build_forest_slots.py --scene sea`로 배치의 알파 영역에 맞는 은신 위치를 다시 계산합니다. `python tests/user_sea_browser.py`는 편집기/게임 배경의 픽셀 일치와 실제 테스트 스프라이트의 가림 정도를 검사합니다. 브라우저 검사는 API를 대체한 로컬 데이터로 실행하며 실제 API 응답 검사는 별도입니다.
