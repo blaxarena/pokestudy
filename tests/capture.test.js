@@ -1,10 +1,13 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {rewardBall,swipe,ballPosition,targetPosition,contact,gradeAt,captureChance,outcome,ringRatio,defaultBall} from '../src/modules/capture/rules.js';
+import {rewardBall,rewardQuantity,swipe,ballPosition,targetPosition,contact,gradeAt,captureChance,outcome,ringRatio,defaultBall} from '../src/modules/capture/rules.js';
 import {spriteCandidates} from '../src/modules/capture/sprites.js';
 
 test('reward distribution boundaries: 70/20/9/1 without rerolls',()=>{
   for(const [r,key] of [[0,'normal'],[.699999,'normal'],[.7,'super'],[.899999,'super'],[.9,'hyper'],[.989999,'hyper'],[.99,'master'],[.999999,'master']])assert.equal(rewardBall(r),key);
+});
+test('reward quantity gives 1–3 equally sized random intervals with exact boundaries',()=>{
+  for(const [r,n] of [[0,1],[1/3-1e-8,1],[1/3,2],[2/3-1e-8,2],[2/3,3],[.9999999,3]])assert.equal(rewardQuantity(r),n);
 });
 test('swipe rejects taps, downward and sideways; direction and power remain player controlled',()=>{
   const a={x:.5,y:.86,time:0};

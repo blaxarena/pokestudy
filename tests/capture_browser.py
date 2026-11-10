@@ -115,6 +115,21 @@ with sync_playwright() as pw:
  page.locator('#captureWrite').click()
  result=page.evaluate('''async()=>{
   const m=await import('./src/modules/capture/store.js');const p={id:25,name:'피카츄'};const learner='storage-tests';
+  // Quantity is independent of ball type and remains fixed across completion retries.
+  for(const [i,random] of [0,.5,.999999].entries()){
+   const key='quantity-'+i,w=await m.startWriting([p],key);
+   await m.transact(s=>{s.writing.attempts[0].quantityRandom=random;s.writing.attempts[0].random=[.1,.8,.99][i];},key);
+   const first=await m.completeWriting(w.id,w.attempts[0].id,key),again=await m.completeWriting(w.id,w.attempts[0].id,key),saved=await m.snapshot(key);
+   if(first.ball!==['normal','super','master'][i]||first.quantity!==i+1||again.quantity!==i+1||saved.balances[first.ball]!==i+1)throw Error('quantity or duplicate credit');
+  }
+  const legacy=await m.startWriting([p],'legacy-quantity');
+  await m.transact(s=>delete s.writing.attempts[0].quantityRandom,'legacy-quantity');
+  const a=await m.completeWriting(legacy.id,legacy.attempts[0].id,'legacy-quantity'),b=await m.completeWriting(legacy.id,legacy.attempts[0].id,'legacy-quantity');
+  if(a.quantity<1||a.quantity>3||a.quantity!==b.quantity)throw Error('legacy quantity retry');
+  await m.transact(s=>{s.attempts.old={id:'old',ball:'normal',completedAt:1};s.balances.normal=1;},'old-reward');
+  const old=await m.completeWriting('old','old','old-reward');
+  if(old.quantity!==1||(await m.snapshot('old-reward')).balances.normal!==1)throw Error('retroactive reward');
+
   const w=await m.startWriting([p,p],learner);
   await m.transact(s=>s.writing.attempts[0].random=.99,learner);
   const reward=await m.completeWriting(w.id,w.attempts[0].id,learner);
@@ -139,7 +154,7 @@ with sync_playwright() as pw:
   await m.completeWriting(w.id,w.attempts[1].id,learner);s=await m.snapshot(learner);if(s.writing.index!==2)throw Error('retry failed');
   return 'ok';
  }''')
- assert result=='ok';print('PASS IndexedDB atomicity, reward retry, learner isolation, concurrent last-ball spend, refund/settlement exclusion, save failure rollback')
+ assert result=='ok';print('PASS 1–3 quantity boundaries, duplicate/legacy rewards, atomicity, learner isolation, concurrent spend, refunds and save rollback')
  # Pending throw abandoned by page termination refunds on acquiring the scene lock.
  page.evaluate('''async()=>{const m=await import('./src/modules/capture/store.js');await m.transact(s=>{s.balances={normal:1,super:0,hyper:0,master:0};s.encounter.result=null;});const s=await m.snapshot();await m.beginThrow({id:'interrupted',ball:'normal',random:.1,encounterId:s.encounter.id});}''')
  page.reload();page.locator('[data-module=captureModule]').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")

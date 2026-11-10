@@ -1,5 +1,5 @@
 import {BALLS,TUNING,defaultBall,totalBalls,swipe,ballPosition,targetPosition,contact,ringRatio,gradeAt,GRADE_NAMES} from './rules.js';
-import {snapshot,ensureEncounter,beginThrow,settleThrow,recoverThrows,uid,onReward} from './store.js';
+import {snapshot,ensureEncounter,beginThrow,settleThrow,recoverThrows,uid,onReward} from './store.js?v=20261110-reward-quantity';
 import {loadSprite,FALLBACK} from './sprites.js';
 const $=id=>document.getElementById(id),root=$('captureModule'),stage=$('captureStage');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');

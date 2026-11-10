@@ -11,6 +11,7 @@ export const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function rewardBall(random){
   let edge=0; for(const [key,b] of Object.entries(BALLS)){edge+=b.weight;if(random<edge)return key;} return 'master';
 }
+export function rewardQuantity(random){return 1+Math.floor(clamp(random,0,1-Number.EPSILON)*3);}
 export function defaultBall(balances, previous){return balances[previous]>0?previous:Object.keys(BALLS).find(k=>balances[k]>0)||'normal';}
 export const totalBalls=b=>Object.values(b).reduce((a,v)=>a+v,0);
 export function swipe(start,end,previous=start){

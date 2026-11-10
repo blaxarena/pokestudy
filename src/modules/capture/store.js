@@ -1,4 +1,4 @@
-import {rewardBall,BALLS,outcome} from './rules.js';
+import {rewardBall,rewardQuantity,BALLS,outcome} from './rules.js?v=20261110-reward-quantity';
 export const uid=()=>crypto.randomUUID();
 const EMPTY=()=>({version:1,balances:{normal:0,super:0,hyper:0,master:0},attempts:{},throws:{},caught:{},encounter:null,writing:null});
 let opening;
@@ -26,19 +26,22 @@ export async function transact(change,learner='device-default'){
 }
 export const snapshot=(learner)=>transact(s=>structuredClone(s),learner);
 export async function startWriting(questions,learner){
-  const attempts=questions.map(()=>({id:uid(),random:Math.random()}));
+  const attempts=questions.map(()=>({id:uid(),random:Math.random(),quantityRandom:Math.random()}));
   return transact(s=>{s.writing={id:uid(),questions,index:0,attempts,ink:null};return structuredClone(s.writing);},learner);
 }
 export const saveInk=(sessionId,attemptId,ink,learner)=>transact(s=>{
   if(s.writing?.id===sessionId&&s.writing.attempts[s.writing.index]?.id===attemptId)s.writing.ink=ink;
 },learner);
+// Old in-progress sessions lack a quantity seed. Derive one from their stable ID
+// so retries, aborted saves and different tabs cannot reroll their quantity.
+function legacyQuantityRandom(id){let hash=2166136261;for(const c of id)hash=Math.imul(hash^c.charCodeAt(0),16777619);return (hash>>>0)/4294967296;}
 export const completeWriting=(sessionId,attemptId,learner)=>transact(s=>{
-  if(s.attempts[attemptId])return structuredClone(s.attempts[attemptId]);
+  if(s.attempts[attemptId])return structuredClone({...s.attempts[attemptId],quantity:s.attempts[attemptId].quantity??1});
   const w=s.writing,a=w?.attempts[w.index];
   if(w?.id!==sessionId||a?.id!==attemptId)throw new Error('다른 화면에서 진행이 바뀌었어요. 다시 열어 주세요.');
-  const pokemon=w.questions[w.index],ball=rewardBall(a.random);
-  const result={id:attemptId,pokemon,ball,completedAt:Date.now()};
-  s.attempts[attemptId]=result;s.balances[ball]++;w.index++;w.ink=null;
+  const pokemon=w.questions[w.index],ball=rewardBall(a.random),quantity=rewardQuantity(a.quantityRandom??legacyQuantityRandom(a.id));
+  const result={id:attemptId,pokemon,ball,quantity,completedAt:Date.now()};
+  s.attempts[attemptId]=result;s.balances[ball]+=quantity;w.index++;w.ink=null;
   return structuredClone(result);
 },learner).then(result=>{updates?.postMessage({type:'reward'});return result;});
 export const ensureEncounter=(pokemon,learner)=>transact(s=>{
