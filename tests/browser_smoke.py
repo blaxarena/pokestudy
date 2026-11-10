@@ -63,7 +63,7 @@ with sync_playwright() as pw:
     assert download.value.suggested_filename.endswith('.png')
    draw_and_save('#colorInk','#colorSave')
    page.locator('nav [data-module=writeModule]').click();page.locator('#writeQuestionCount').fill('2');page.locator('#startWriting').click();page.wait_for_selector('#writingActivity:not(.hidden)');assert page.locator('#writeGuideText').inner_text().startswith('테스트')
-   draw_and_save('#writeInk','#writeSave');page.locator('#writeNext').click();assert '2 / 2' in page.locator('#writeProgress').inner_text()
+   draw_and_save('#writeInk','#writeSave');page.locator('#writeNext').click();page.wait_for_function("document.querySelector('#writeProgress').textContent.includes('2 / 2')");assert '2 / 2' in page.locator('#writeProgress').inner_text()
    print('PASS learning regression fixtures: four choices, quit position, 3-second reveal, coloring palette/ink/save, handwriting guide/ink/save/next')
   assert not errors,errors
   if width==1180:
