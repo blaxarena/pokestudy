@@ -35,13 +35,14 @@ with sync_playwright() as pw:
  print('PASS numbered composed guide does not add ink, complete work, or award balls')
  page.locator('#writeStrokeDetails summary').click();page.locator('#writeStrokeLetters button').filter(has_text='카').click()
  assert page.locator('#writeStrokeZoom [data-stroke-number]').count()==4
- page.locator('#writeStepStroke').click();assert page.locator('#writeStrokeStatus').inner_text()=='카 · 1/4획'
+ page.locator('#writeZoomStepStroke').click();assert page.locator('#writeStrokeStatus').inner_text()=='카 · 1/4획'
  page.locator('#writeStepStroke').click();assert page.locator('#writeStrokeStatus').inner_text()=='카 · 2/4획'
- page.clock.install();page.locator('#writePlayStrokes').click();page.clock.run_for(500)
+ page.clock.install();page.locator('#writeZoomPlayStrokes').click();page.clock.run_for(500)
  assert page.locator('#writeStrokeZoom [data-stroke="1"]').get_attribute('visibility')=='visible'
  offset=float(page.locator('#writeStrokeZoom [data-stroke="1"]').evaluate('e=>e.style.strokeDashoffset'));assert offset>0
  page.clock.run_for(3500);assert '다 봤어요' in page.locator('#writeStrokeStatus').inner_text()
- print('PASS per-letter zoom, sequential stepping, progressive stroke animation and completion')
+ page.locator('#writeStrokeDetails').screenshot(path='/tmp/pokestudy-stroke-zoom.png')
+ print('PASS per-letter zoom, local playback controls, sequential stepping, progressive stroke animation and completion')
  page.locator('#writeShowStrokeOrder').uncheck();assert page.locator('#writeGuideText').is_visible() and not page.locator('#writeStrokeGuide').is_visible()
  page.locator('#writeShowStrokeOrder').check();page.locator('#writeShowGuide').uncheck();assert not page.locator('#writeStrokeGuide').is_visible() and not page.locator('#writeGuideText').is_visible()
  page.locator('#writeShowGuide').check();assert page.locator('#writeStrokeGuide').is_visible()

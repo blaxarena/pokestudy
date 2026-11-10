@@ -57,12 +57,16 @@ export function createStrokeGuide(){
   function visible(){
     return shown&&$('writeShowStrokeOrder').checked&&letters.some(l=>l.data);
   }
+  function setStatus(text){
+    if(status.textContent!==text)status.textContent=text;
+    $('writeStrokeZoomStatus').textContent=text;
+  }
   function resetPaths(){
     for(const view of [wordView,zoomView])for(const record of view?.records||[]){record.progress.setAttribute('visibility','hidden');record.dot.setAttribute('visibility','hidden');}
   }
   function stop(){
     cancelAnimationFrame(animation);animation=0;playing=false;lastTime=null;elapsed=0;current=0;resetPaths();
-    $('writePlayStrokes').textContent='획순 재생';$('writeStepStroke').disabled=!visible();
+    $('writePlayStrokes').textContent='획순 재생';$('writeZoomPlayStrokes').textContent='이 글자 재생';$('writeStepStroke').disabled=!visible();
   }
   function updateVisibility(){
     const show=visible();host.classList.toggle('hidden',!show);$('writeGuideText').classList.toggle('hidden',!shown||show);
@@ -73,7 +77,7 @@ export function createStrokeGuide(){
     const letter=letters[selected];if(!letter?.data){zoom.replaceChildren();zoomView=null;return;}
     zoomView=renderStrokeSvg([letter],{detail:true});zoom.replaceChildren(zoomView.svg);
     for(const button of tabs.children)button.setAttribute('aria-pressed',String(+button.dataset.letter===selected));
-    $('writeStrokeZoomLabel').textContent=`${letter.character} · ${letter.data.strokes.length}획`;
+    $('writeStrokeZoomLabel').textContent=`${letter.character} · ${letter.data.strokes.length}획`;setStatus('번호 순서대로 따라 써 보세요.');
   }
   function activeRecords(){return mode==='letter'?zoomView?.records||[]:wordView?.records||[];}
   function mirroredRecords(record){
@@ -85,22 +89,22 @@ export function createStrokeGuide(){
       r.progress.style.strokeDasharray=String(length);r.progress.style.strokeDashoffset=String(length*(1-fraction));
       const point=r.progress.getPointAtLength(length*fraction);r.dot.setAttribute('cx',point.x);r.dot.setAttribute('cy',point.y);r.dot.setAttribute('visibility',fraction<1?'visible':'hidden');
     }
-    const notice=`${record.letter.character} · ${record.index+1}/${record.letter.data.strokes.length}획`;if(status.textContent!==notice)status.textContent=notice;
+    const notice=`${record.letter.character} · ${record.index+1}/${record.letter.data.strokes.length}획`;if(status.textContent!==notice)setStatus(notice);
   }
   function frame(now){
     if(!playing||document.hidden){lastTime=null;return;}
     if(lastTime!==null)elapsed+=now-lastTime;lastTime=now;
-    const records=activeRecords(),record=records[current];if(!record){playing=false;animation=0;$('writePlayStrokes').textContent='다시 재생';status.textContent='획순을 다 봤어요. 번호 순서대로 써 보세요.';return;}
+    const records=activeRecords(),record=records[current];if(!record){playing=false;animation=0;$('writePlayStrokes').textContent='다시 재생';$('writeZoomPlayStrokes').textContent='다시 재생';setStatus('획순을 다 봤어요. 번호 순서대로 써 보세요.');return;}
     const duration=650,pause=180;paint(record,Math.min(1,elapsed/duration));
     if(elapsed>=duration+pause){current++;elapsed=0;lastTime=null;}
     animation=requestAnimationFrame(frame);
   }
   function play(){
     if(!visible())return;
-    if(playing){stop();status.textContent='재생을 멈췄어요. 다시 보려면 획순 재생을 눌러요.';return;}
+    if(playing){stop();setStatus('재생을 멈췄어요. 다시 보려면 획순 재생을 눌러요.');return;}
     if(reduced.matches){step();return;}
     stop();mode=$('writeStrokeDetails').open?'letter':'word';
-    playing=true;$('writePlayStrokes').textContent='재생 멈추기';animation=requestAnimationFrame(frame);
+    playing=true;$('writePlayStrokes').textContent='재생 멈추기';$('writeZoomPlayStrokes').textContent='재생 멈추기';animation=requestAnimationFrame(frame);
   }
   function step(){
     if(!visible())return;
@@ -108,9 +112,10 @@ export function createStrokeGuide(){
     mode=$('writeStrokeDetails').open?'letter':'word';const records=activeRecords();
     if(current>=records.length){resetPaths();current=0;}
     const record=records[current++];if(record)paint(record,1);
-    $('writePlayStrokes').textContent='획순 재생';
+    $('writePlayStrokes').textContent='획순 재생';$('writeZoomPlayStrokes').textContent='이 글자 재생';
   }
   $('writePlayStrokes').addEventListener('click',play);$('writeStepStroke').addEventListener('click',step);
+  $('writeZoomPlayStrokes').addEventListener('click',play);$('writeZoomStepStroke').addEventListener('click',step);
   $('writeShowStrokeOrder').addEventListener('change',()=>{stop();updateVisibility();});
   $('writeStrokeDetails').addEventListener('toggle',()=>{stop();});
   document.addEventListener('visibilitychange',()=>{lastTime=null;if(document.hidden){cancelAnimationFrame(animation);animation=0;}else if(playing)animation=requestAnimationFrame(frame);});
@@ -119,7 +124,7 @@ export function createStrokeGuide(){
   return {
     async setName(name){
       const version=++revision;stop();letters=[];host.replaceChildren();zoom.replaceChildren();tabs.replaceChildren();wordView=zoomView=null;
-      $('writeGuideText').textContent=name;updateVisibility();status.textContent='획순 가이드를 준비해요…';
+      $('writeGuideText').textContent=name;updateVisibility();setStatus('획순 가이드를 준비해요…');
       try{
         const loaded=await loadWordStrokes(name);if(version!==revision)return;
         letters=loaded;selected=Math.max(0,letters.findIndex(l=>l.data));
@@ -130,8 +135,8 @@ export function createStrokeGuide(){
           button.onclick=()=>{stop();selected=letter.index;updateZoom();};tabs.append(button);
         }
         updateZoom();updateVisibility();
-        status.textContent=letters.every(l=>l.data)?'번호 순서대로 따라 써 보세요. 크게 보기에서 한 글자씩 볼 수 있어요.':'한글에 획순을 표시해요. 숫자·영문·기호는 글자 가이드로 보여요.';
-      }catch{if(version!==revision)return;letters=[];updateVisibility();status.textContent='획순을 불러오지 못했어요. 연한 글자 가이드로 써 보세요.';}
+        setStatus(letters.every(l=>l.data)?'번호 순서대로 따라 써 보세요. 크게 보기에서 한 글자씩 볼 수 있어요.':'한글에 획순을 표시해요. 숫자·영문·기호는 글자 가이드로 보여요.');
+      }catch{if(version!==revision)return;letters=[];updateVisibility();setStatus('획순을 불러오지 못했어요. 연한 글자 가이드로 써 보세요.');}
     },
     setVisible(value){shown=value;updateVisibility();},
     async drawToCanvas(ctx,width,height){
