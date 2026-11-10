@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="app-version" content="2026-11-10-pen-guide">
 <title>포켓몬 도감 놀이터</title>
 <style>
 :root{--red:#e53935;--red-dark:#b71c1c;--ink:#253044;--muted:#697386;--line:#d9e0e8;--paper:#f5f7fa;--blue:#2b6cb0;--green:#16804a;--wrong:#c62828}
@@ -185,7 +186,7 @@ body.game-focus{overflow:hidden}
 
 </style>
 <link rel="stylesheet" href="./src/modules/capture/style.css">
-<link rel="stylesheet" href="./src/modules/handwriting/stroke-guide.css">
+<link rel="stylesheet" href="./src/modules/handwriting/stroke-guide.css?v=20261110-pen-guide">
 </head>
 <body>
 <div class="shell">
@@ -307,7 +308,8 @@ body.game-focus{overflow:hidden}
         <div class="tool-row"><button id="loadColorPool" class="btn primary">포켓몬 목록 불러오기</button><span id="colorStatus" class="loading-line" role="status" aria-live="polite">세대를 선택하고 목록을 불러와 주세요.</span></div>
         <div class="canvas-layout">
           <div class="canvas-card"><h3>① 원본 그림</h3><div class="reference-stage"><img id="colorReference" alt="선택한 포켓몬 원본 그림" src=""></div><p id="colorPokemonMeta" class="hint">포켓몬을 선택하면 원본이 표시됩니다.</p></div>
-          <div class="canvas-card"><h3>② 색칠 도안</h3><div id="colorDrawStage" class="draw-stage"><canvas id="colorInk" class="drawing-canvas"></canvas><canvas id="colorOutline" class="outline-canvas"></canvas></div>
+          <div class="canvas-card"><h3>② 색칠 도안</h3><div class="drawing-input-controls"><label for="colorInputMode">그리기 입력</label><select id="colorInputMode" data-drawing-input aria-describedby="colorInputStatus"><option value="auto">자동 · 펜 우선</option><option value="pen">펜만 쓰기</option><option value="all">펜·손가락·마우스</option></select><p id="colorInputStatus" data-drawing-input-status role="status" aria-live="polite"></p></div>
+              <div id="colorDrawStage" class="draw-stage"><canvas id="colorInk" class="drawing-canvas"></canvas><canvas id="colorOutline" class="outline-canvas"></canvas></div>
             <div class="tool-controls"><label>색상 <input type="color" id="colorPenColor" value="#f04444"></label><button id="colorEyedropper" class="btn secondary" type="button">🧪 원본에서 색 가져오기</button><label>굵기 <input type="range" id="colorPenSize" min="2" max="32" value="9"><span id="colorPenSizeLabel">9</span></label><label><input type="checkbox" id="colorEraser"> 지우개</label></div>
             <div id="colorPalette" class="color-palette" aria-label="색상 팔레트"></div>
             <p class="hint" id="eyedropperHint">색을 누르면 펜 색이 바뀝니다. 지원되는 브라우저에서는 스포이드로 화면의 색도 선택할 수 있어요.</p>
@@ -331,6 +333,7 @@ body.game-focus{overflow:hidden}
           <div class="write-layout">
             <div class="write-pokemon"><img id="writePokemonImage" alt="이름을 써볼 포켓몬"><h3 id="writePokemonName">포켓몬 이름</h3><p>그림과 이름을 보고 써보세요.</p></div>
             <div class="write-pad-wrap"><div class="tool-controls"><label><input type="checkbox" id="writeShowGuide" checked> 연한 글자 가이드</label><label>색상 <input type="color" id="writePenColor" value="#263447"></label><label>굵기 <input type="range" id="writePenSize" min="2" max="24" value="6"><span id="writePenSizeLabel">6</span></label><label><input type="checkbox" id="writeEraser"> 지우개</label></div>
+              <div class="drawing-input-controls"><label for="writeInputMode">그리기 입력</label><select id="writeInputMode" data-drawing-input aria-describedby="writeInputStatus"><option value="auto">자동 · 펜 우선</option><option value="pen">펜만 쓰기</option><option value="all">펜·손가락·마우스</option></select><p id="writeInputStatus" data-drawing-input-status role="status" aria-live="polite"></p></div>
               <div class="stroke-controls"><label><input type="checkbox" id="writeShowStrokeOrder" checked> 획순 번호</label><button id="writePlayStrokes" class="btn secondary" type="button">획순 재생</button><button id="writeStepStroke" class="btn outline" type="button">한 획씩 보기</button></div>
               <p id="writeStrokeStatus" class="stroke-status" role="status" aria-live="polite">번호 순서대로 따라 써 보세요.</p>
               <div id="writingPad" class="writing-pad"><div id="writeGuideText" class="guide-text">피카츄</div><div id="writeStrokeGuide" class="stroke-guide" aria-hidden="true"></div><canvas id="writeInk" class="write-ink"></canvas></div>
@@ -675,10 +678,12 @@ $("retryWrong").addEventListener("click",()=>{
 <script type="module">
 import {snapshot as captureSnapshot,startWriting as startWritingSession,saveInk,completeWriting} from './src/modules/capture/store.js';
 import {hasWritingInk} from './src/modules/handwriting/ink.js';
-import {createStrokeGuide} from './src/modules/handwriting/stroke-guide.js';
+import {createStrokeGuide} from './src/modules/handwriting/stroke-guide.js?v=20261110-pen-guide';
+import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-pen-guide';
 (()=>{
   const $a=id=>document.getElementById(id);
   const writingGuide=createStrokeGuide();
+  const penInput=createPenInput();
   const API2='https://pokeapi.co/api/v2/';
   const ART2=id=>`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
   const SPRITE2=id=>`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -762,11 +767,46 @@ import {createStrokeGuide} from './src/modules/handwriting/stroke-guide.js';
   }
   function resetInk(canvas,stage,kind){const {ctx,w,h}=fitCanvas(canvas,stage);ctx.clearRect(0,0,w,h);if(kind==='color'){colorStrokes=[];colorUndoStack=[];}else{writeStrokes=[];writeUndoStack=[];}return ctx;}
   function setupDrawing(canvas,stage,mode){
-    let drawing=false,last=null,ctx=canvas.getContext('2d');
+    let active=null,ctx=canvas.getContext('2d');
     const getPos=e=>{const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};};
-    canvas.onpointerdown=e=>{if(canvas.width===0)return;drawing=true;canvas.setPointerCapture?.(e.pointerId);if(mode==='color')colorUndoStack.push(ctx.getImageData(0,0,canvas.width,canvas.height));else writeUndoStack.push(ctx.getImageData(0,0,canvas.width,canvas.height));last=getPos(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=mode==='color'&&$a('colorEraser').checked?'#ffffff':mode==='write'&&$a('writeEraser').checked?'#ffffff':mode==='color'?$a('colorPenColor').value:$a('writePenColor').value;ctx.lineWidth=mode==='color'?+$a('colorPenSize').value:+$a('writePenSize').value;ctx.globalCompositeOperation='source-over';ctx.stroke();};
-    canvas.onpointermove=e=>{if(!drawing)return;const p=getPos(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=mode==='color'&&$a('colorEraser').checked?'#ffffff':mode==='write'&&$a('writeEraser').checked?'#ffffff':mode==='color'?$a('colorPenColor').value:$a('writePenColor').value;ctx.lineWidth=mode==='color'?+$a('colorPenSize').value:+$a('writePenSize').value;ctx.stroke();last=p;if(mode==='color')colorStrokes.push({x:p.x,y:p.y});else writeStrokes.push({x:p.x,y:p.y});};
-    const end=()=>{if(drawing&&mode==='write')persistWriteInk();drawing=false;last=null};canvas.onpointerup=end;canvas.onpointercancel=end;canvas.onlostpointercapture=end;
+    const history=()=>mode==='color'?colorUndoStack:writeUndoStack;
+    const strokes=()=>mode==='color'?colorStrokes:writeStrokes;
+    function cancel(){
+      if(!active)return;const previous=active;active=null;
+      // Roll back a palm/finger mark if a pen supersedes it mid-stroke.
+      ctx.putImageData(previous.before,0,0);
+      if(history()[history().length-1]===previous.before)history().pop();
+      strokes().splice(previous.strokeCount);
+      if(canvas.hasPointerCapture?.(previous.id))canvas.releasePointerCapture(previous.id);
+      if(mode==='write')persistWriteInk();
+    }
+    penInput.onChange(()=>{if(active&&!penInput.accepts({pointerType:active.type}))cancel();});
+    function configurePen(){
+      ctx.lineCap='round';ctx.lineJoin='round';
+      ctx.strokeStyle=mode==='color'&&$a('colorEraser').checked?'#ffffff':mode==='write'&&$a('writeEraser').checked?'#ffffff':mode==='color'?$a('colorPenColor').value:$a('writePenColor').value;
+      ctx.lineWidth=mode==='color'?+$a('colorPenSize').value:+$a('writePenSize').value;ctx.globalCompositeOperation='source-over';
+    }
+    canvas.onpointerdown=e=>{
+      if(!canvas.width||!canvas.height||e.button!==0||!penInput.accepts(e)||active)return;
+      e.preventDefault();const before=ctx.getImageData(0,0,canvas.width,canvas.height);
+      active={id:e.pointerId,type:e.pointerType,before,strokeCount:strokes().length,last:getPos(e)};
+      history().push(before);try{canvas.setPointerCapture(e.pointerId);}catch{}
+      configurePen();ctx.beginPath();ctx.moveTo(active.last.x,active.last.y);ctx.stroke();
+    };
+    canvas.onpointermove=e=>{
+      if(!active||e.pointerId!==active.id||!penInput.accepts(e))return;
+      e.preventDefault();const p=getPos(e);configurePen();ctx.beginPath();ctx.moveTo(active.last.x,active.last.y);ctx.lineTo(p.x,p.y);ctx.stroke();
+      active.last=p;strokes().push({x:p.x,y:p.y});
+    };
+    const end=e=>{
+      if(!active||e.pointerId!==active.id)return;
+      active=null;if(mode==='write')persistWriteInk();
+    };
+    canvas.onpointerup=end;
+    canvas.onpointercancel=e=>{if(active?.id===e.pointerId)cancel();};
+    canvas.onlostpointercapture=end;
+    window.addEventListener('resize',cancel);
+    const module=canvas.closest('.module');new MutationObserver(()=>{if(module.classList.contains('hidden'))cancel();}).observe(module,{attributes:true,attributeFilter:['class']});
   }
   function resizeColorCanvas(clear=true){const stage=$a('colorDrawStage');if(!stage||stage.clientWidth<5)return;const canvas=$a('colorInk');const old=document.createElement('canvas');if(!clear&&canvas.width){old.width=canvas.width;old.height=canvas.height;old.getContext('2d').drawImage(canvas,0,0);}const {ctx,w,h,dpr}=fitCanvas(canvas,stage);ctx.clearRect(0,0,w,h);if(!clear&&old.width)ctx.drawImage(old,0,0,old.width/dpr,old.height/dpr);if(selectedColor){const img=$a('colorReference');if(img.complete&&img.naturalWidth)createOutline(img,$a('colorOutline'),stage);}}
   function loadColorPokemon(p){

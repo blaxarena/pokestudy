@@ -64,3 +64,14 @@ Python 검사는 Playwright, Pillow, `/usr/bin/chromium`이 필요합니다. 새
 데이터는 MIT 라이선스의 [Hangul Writer 1.0.1](https://github.com/mirodn/hangul-writer)를 `src/vendor/hangul-writer/`에 포함했습니다. npm 배포 아카이브의 SHA-512 무결성을 검증했고 라이선스·저작권·원본 설명을 함께 보존했습니다. 런타임에는 외부 CDN이나 문자 데이터 요청을 하지 않습니다. 51개 자모와 현대 한글 11,172개 음절의 자모별 획순 및 음절 합성 기능을 사용합니다. 음절 모양은 자모에서 합성하므로 기존 글꼴과 다를 수 있습니다. ㅈ·ㅊ은 인쇄체 기준 3획·4획이며, 필기체 등 다른 교육 관행과 차이가 있을 수 있습니다. 데이터 출처·버전·무결성은 `src/vendor/hangul-writer/README.md`를 참고하세요.
 
 검증: `npm test`의 자모 획수·방향, 포켓몬 이름 합성, 겹받침·복합모음 및 비한글 처리와 `python tests/handwriting_strokes_browser.py`의 번호·확대·순차 재생·한 획씩 보기·가이드 토글·PNG 저장·빈 화면 격리·화면 크기·이동·감소된 모션 검사를 사용합니다. 실제 아이의 학습 효과, 실기기 Safari/Android 조작감 및 교육 전문가의 전체 데이터 검수는 별도입니다.
+
+
+## 펜 우선 입력과 이전 화면 갱신
+
+`src/modules/handwriting/pen-input.js`가 쓰기·색칠 입력 모드를 공유합니다. `auto`는 펜 이벤트 관측 전 모든 입력을 허용하고, `pointerType === "pen"` 이벤트를 관측한 뒤 캔버스에는 펜만 허용합니다. `pen`은 관측 전부터 펜만 허용하며, `all`은 손가락·마우스를 다시 허용합니다. 선택 모드는 `pokestudy-drawing-input-mode` 키에 저장하지만 자동 감지 상태는 페이지 수명 동안만 유지합니다. JavaScript로 Apple Pencil의 연결·페어링 여부를 미리 감지하지 않습니다.
+
+쓰기와 색칠의 `setupDrawing`은 활성 포인터 ID를 추적하여 다른 손가락의 이동/종료가 펜 획을 변경하거나 끝내지 못하게 합니다. 펜이 활성 손가락을 대체하면 그 손가락 획의 시작 전 이미지·되돌리기 기록으로 복구한 뒤 펜 획을 시작합니다. 차단 범위는 캔버스뿐이므로 일반 UI 조작은 손가락으로 할 수 있습니다. 입력 취소·회전·화면 이탈 시 활성 획을 취소합니다.
+
+획순 버튼 자체가 없는 이전 HTML이 열린 경우 새 조회 조건의 링크 `/?v=20261110-pen-guide`로 다시 엽니다. 획순 CSS·모듈에도 갱신용 버전 조회 조건을 적용했습니다. 새 HTML의 `app-version` 메타 값은 `2026-11-10-pen-guide`입니다. 이는 기존에 열려 있는 문서를 자동 갱신하지 않으며, 이전 화면에서 새 링크로 이동하거나 새로고침해야 합니다. 브라우저 저장 데이터를 삭제할 필요는 없습니다.
+
+검증: `tests/pen-input.test.js`의 모드별 정책과 `python tests/pen_input_browser.py`의 iPad 화면 크기 Chromium 검사로 펜 전환, 손바닥 자국 복구, 포인터 소유권, 차단·해제, 저장된 설정, 되돌리기, 일반 버튼 터치 및 색칠 공유를 확인합니다. 이 검사는 실제 iPad Safari/Apple Pencil의 하드웨어 판정을 대체하지 않습니다.
