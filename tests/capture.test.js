@@ -24,7 +24,9 @@ test('a natural centered throw hits a resting target; a diagonal throw misses',(
   assert.equal(hit,false);
 });
 test('relative swept collision catches fast balls and moving targets between frames',()=>{
-  assert.notEqual(contact({x:.5,y:.9},{x:.5,y:.1},{x:.3,y:.35},{x:.7,y:.35}),null);
+  assert.notEqual(contact({x:.5,y:.9},{x:.5,y:.1},{x:.3,y:.5},{x:.7,y:.5}),null);
+  // This off-center crossing hit the old larger box, but misses the reduced box.
+  assert.equal(contact({x:.5,y:.9},{x:.5,y:.1},{x:.3,y:.35},{x:.7,y:.35}),null);
   assert.equal(contact({x:.1,y:.9},{x:.1,y:.1},{x:.5,y:.35},{x:.5,y:.35}),null);
   assert.equal(contact({x:.5,y:.35},{x:.5,y:.35},{x:.5,y:.35},{x:.5,y:.35}),0);
 });
@@ -34,19 +36,21 @@ test('ring grades include exact 60% and 30% boundaries and outside hits',()=>{
   assert.equal(ringRatio(40,true),.6);
 });
 test('all rarity, ball, grade and pity modifiers with 95% cap',()=>{
-  assert.equal(captureChance({ball:'normal'}),.75);
+  assert.equal(captureChance({ball:'normal'}),.65);
+  assert.equal(captureChance({ball:'super'}),.75);
+  assert.ok(Math.abs(captureChance({ball:'hyper'})-.85)<1e-10);
   assert.equal(captureChance({ball:'normal',rarity:'uncommon'}),.6);
   assert.equal(captureChance({ball:'normal',rarity:'rare'}),.45);
-  assert.ok(Math.abs(captureChance({ball:'super',rarity:'rare'})-.53)<1e-10);
-  assert.ok(Math.abs(captureChance({ball:'hyper',rarity:'rare'})-.6)<1e-10);
+  assert.ok(Math.abs(captureChance({ball:'super',rarity:'rare'})-.55)<1e-10);
+  assert.ok(Math.abs(captureChance({ball:'hyper',rarity:'rare'})-.65)<1e-10);
   assert.equal(captureChance({ball:'normal',first:true,grade:'excellent',misses:100}),.95);
   assert.equal(captureChance({ball:'normal',rarity:'rare',misses:100}),.65);
   assert.equal(captureChance({ball:'master',rarity:'rare'}),1);
 });
 test('stored RNG is strict at probability boundary; master needs a hit',()=>{
   const e={pokemon:{},first:false,misses:0};
-  assert.equal(outcome({ball:'normal',random:.74999},e,'basic').kind,'caught');
-  assert.equal(outcome({ball:'normal',random:.75},e,'basic').kind,'escaped');
+  assert.equal(outcome({ball:'normal',random:.64999},e,'basic').kind,'caught');
+  assert.equal(outcome({ball:'normal',random:.65},e,'basic').kind,'escaped');
   assert.equal(outcome({ball:'master',random:.99999},e,'basic').kind,'caught');
   assert.equal(outcome({ball:'master',random:0},e).kind,'miss');
   for(const ball of ['normal','super','hyper']){const chance=captureChance({ball,grade:'great'});assert.equal(outcome({ball,random:chance-.00001},e,'great').kind,'caught');assert.equal(outcome({ball,random:chance},e,'great').kind,'escaped');}

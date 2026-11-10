@@ -1,11 +1,11 @@
 // All initial tuning values live here. Coordinates are fractions of the play area.
 export const BALLS = {
   normal: {name:'몬스터볼', mark:'◓', color:'#e85155', weight:.70, bonus:0},
-  super: {name:'슈퍼볼', mark:'S', color:'#287ad4', weight:.20, bonus:.08},
-  hyper: {name:'하이퍼볼', mark:'H', color:'#b48708', weight:.09, bonus:.15},
+  super: {name:'슈퍼볼', mark:'S', color:'#287ad4', weight:.20, bonus:.10},
+  hyper: {name:'하이퍼볼', mark:'H', color:'#b48708', weight:.09, bonus:.20},
   master: {name:'마스터볼', mark:'M', color:'#894dc6', weight:.01, bonus:0}
 };
-export const TUNING = Object.freeze({minSwipe:.06, gravity:1.2, duration:2, radiusX:.06, radiusY:.04, ringRadius:.15,
+export const TUNING = Object.freeze({minSwipe:.06, gravity:1.2, duration:2, radiusX:.042, radiusY:.028, ringRadius:.15,
   ballRadius:.025, moveInterval:3, moveDuration:.55, firstPause:5, ringPeriod:2.4});
 export const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function rewardBall(random){
@@ -44,7 +44,7 @@ export function gradeAt(distance,ratio){return distance>ratio?'basic':ratio>.6?'
 export const GRADE_NAMES={basic:'명중',nice:'나이스',great:'그레이트',excellent:'엑설런트'};
 export function captureChance({ball,grade='basic',rarity='normal',first=false,misses=0}){
   if(ball==='master')return 1;
-  return clamp(({normal:.75,uncommon:.60,rare:.45}[rarity]??.75)+({basic:0,nice:.05,great:.10,excellent:.15}[grade]??0)+BALLS[ball].bonus+(first?.15:0)+Math.min(2,misses)*.10,.10,.95);
+  return clamp(({normal:.65,uncommon:.60,rare:.45}[rarity]??.65)+({basic:0,nice:.05,great:.10,excellent:.15}[grade]??0)+BALLS[ball].bonus+(first?.15:0)+Math.min(2,misses)*.10,.10,.95);
 }
 export function outcome(throwRecord,encounter,grade=null){
   if(!grade)return {kind:'miss',grade:null,chance:0};
