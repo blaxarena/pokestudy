@@ -11,8 +11,6 @@ function message(text){$('captureMessage').textContent=text;}
 function controls(){
   const busy=['loading','saving','flight','judging','animation'].includes(state);
   $('captureBalls').querySelectorAll('button').forEach(b=>{const k=b.dataset.ball;b.disabled=!owns||busy||state==='aiming'||!data?.balances[k];b.setAttribute('aria-pressed',String(k===selected));b.querySelector('.ball-count').textContent=data?.balances[k]??0;});
-  $('captureRetry').hidden=state!=='result'||encounter?.result?.kind==='caught'||!totalBalls(data?.balances||{});
-  $('captureContinue').hidden=state!=='result'||encounter?.result?.kind!=='caught'||!totalBalls(data?.balances||{});
   $('captureSkip').hidden=state!=='animation';$('captureSaveRetry').hidden=state!=='save-error';
   $('captureLockRetry').hidden=owns||state!=='blocked';
   stage.dataset.state=state;
@@ -31,34 +29,49 @@ onReward(async()=>{
   if(!active||!owns)return;
   try{const fresh=await snapshot();if(!active)return;data=fresh;if(state==='empty'){await initialize(token);}else if(['ready','result'].includes(state))controls();}catch{message('저장하지 못했어요. 다시 시도해요');}
 });
-function ready(){
+function ready(notice=''){
   selected=defaultBall(data.balances,selected);state=totalBalls(data.balances)?'ready':'empty';
-  message(state==='empty'?'이름을 하나 쓰고 몬스터볼을 받아요':'공을 위로 쓱 올려요. 쓰기 완료 기록은 언제나 남아요.');controls();
+  message(state==='empty'?`${notice?notice+' ':''}이름을 하나 쓰고 몬스터볼을 받아요`:notice||'공을 위로 쓱 올려요. 쓰기 완료 기록은 언제나 남아요.');controls();
 }
 function showResult(){
-  state='result';selected=defaultBall(data.balances,selected);const r=encounter.result,name=encounter.pokemon.name;
+  if(state==='loading')return;
+  selected=defaultBall(data.balances,selected);const r=encounter.result,name=encounter.pokemon.name;
   const code=name.charCodeAt(name.length-1),particle=code>=0xac00&&code<=0xd7a3&&(code-0xac00)%28?'을':'를';
-  message(r.kind==='caught'?`${name}${particle} 잡았어요! ${GRADE_NAMES[r.grade]}!`:r.kind==='miss'?'공이 빗나갔어요! 방향을 바꾸어 한 번 더 해볼까요?':`${GRADE_NAMES[r.grade]}! 아깝다! 포켓몬이 볼에서 나왔어요. 한 번 더 해볼까요?`);
-  if(!totalBalls(data.balances))message($('captureMessage').textContent+' 남은 볼이 없어요. 이름을 쓰고 받아요.');
-  $('captureBall').classList.remove('capture-shake');controls();
+  const again=totalBalls(data.balances)>0;
+  const notice=r.kind==='caught'?`${name}${particle} 잡았어요! ${GRADE_NAMES[r.grade]}!`:r.kind==='miss'?`공이 빗나갔어요!${again?' 다음 공을 위로 쓱 올려요.':''}`:`${GRADE_NAMES[r.grade]}! 아깝다! 볼에서 나왔어요.${again?' 다음 공으로 다시 도전해요.':''}`;
+  $('captureBall').classList.remove('capture-shake');
+  if(r.kind==='caught')nextEncounter(notice);else ready(notice);
 }
-async function loadEncounter(version){
+function nextEncounter(notice){
+  state='loading';message(notice);controls();const version=token;
+  operation=(async()=>{
+    try{
+      const next=await ensureEncounter(candidate()),fresh=await snapshot();
+      if(!active||version!==token)return;
+      encounter=next;data=fresh;time=0;last=null;
+      // Image loading can be canceled by leaving; do not hold the scene lock for it.
+      loadEncounter(version,notice).catch(()=>{if(active&&version===token){state='save-error';message('저장하지 못했어요. 다시 시도해요');controls();}});
+    }catch{if(active&&version===token){state='save-error';message('저장하지 못했어요. 다시 시도해요');controls();}}
+  })();
+}
+async function loadEncounter(version,notice=''){
   if(!active||version!==token)return;
-  state='loading';message('포켓몬을 만나러 가요…');controls();
+  state='loading';message(notice||'포켓몬을 만나러 가요…');controls();
   const p=encounter.pokemon;spriteBounds=null;
   $('captureName').textContent=p.name;$('captureTarget').src=FALLBACK;
   const result=await loadSprite(p,reduced.matches);
   if(!active||version!==token)return;
   $('captureTarget').src=result.url;$('captureTarget').alt=p.name;spriteBounds=result.bounds||null;
   $('captureImageNote').textContent=result.fallback?'그림을 불러오지 못해 기본 그림을 사용해요. 포획은 계속할 수 있어요.':'';
-  if(encounter.result)showResult();else ready();
+  if(encounter.result){state='result';showResult();}else ready(notice);
 }
 function candidate(){
   const learned=Object.values(data.attempts).sort((a,b)=>b.completedAt-a.completedAt);
   const preferred=learned[0]?.pokemon;
   if(!data.encounter)return preferred||data.writing?.questions[0];
   const pool=data.writing?.questions?.length?data.writing.questions:learned.map(a=>a.pokemon);
-  return pool.length?pool[Math.floor(Math.random()*pool.length)]:preferred;
+  const others=pool.filter(p=>p.id!==data.encounter?.pokemon.id),choices=others.length?others:pool;
+  return choices.length?choices[Math.floor(Math.random()*choices.length)]:preferred;
 }
 async function initialize(version){
   data=await recoverThrows();if(!active||version!==token)return;
@@ -185,11 +198,6 @@ stage.addEventListener('pointerup',e=>{
   })();
 });
 for(const event of ['pointercancel','lostpointercapture'])stage.addEventListener(event,cancelAim);
-$('captureRetry').onclick=()=>ready();
-$('captureContinue').onclick=async()=>{
-  state='loading';controls();const version=token;
-  try{encounter=await ensureEncounter(candidate());data=await snapshot();if(!active||version!==token)return;time=0;await loadEncounter(version);}catch{state='save-error';message('저장하지 못했어요. 다시 시도해요');controls();}
-};
 $('captureSkip').onclick=showResult;
 $('captureSaveRetry').onclick=async()=>{
   if(currentThrow&&savedGrade!==undefined){try{data=await snapshot();if(data.throws[currentThrow.id]?.status==='pending'){judge(savedGrade);return;}}catch{}}

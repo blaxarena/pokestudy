@@ -38,6 +38,10 @@ def swipe_mouse(page,dx=0,up=.26):
  box=page.locator('#captureStage').bounding_box();x=box['x']+box['width']*.5;y=box['y']+box['height']*.86
  page.mouse.move(x,y);page.mouse.down();page.mouse.move(x+box['width']*dx,y-box['height']*up,steps=8);page.mouse.up()
 
+def draw_name(page):
+ page.locator('#writeEraser').uncheck();page.locator('#writeInk').scroll_into_view_if_needed()
+ box=page.locator('#writeInk').bounding_box();page.mouse.move(box['x']+20,box['y']+30);page.mouse.down();page.mouse.move(box['x']+120,box['y']+70,steps=6);page.mouse.up()
+
 with sync_playwright() as pw:
  browser=pw.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
  context=browser.new_context(viewport={'width':390,'height':844},has_touch=True,reduced_motion='reduce')
@@ -49,7 +53,7 @@ with sync_playwright() as pw:
  # Incomplete work / clear / export are not rewards. Ink is restored on reload.
  page.locator('#writeInk').scroll_into_view_if_needed()
  box=page.locator('#writeInk').bounding_box();page.mouse.move(box['x']+20,box['y']+30);page.mouse.down();page.mouse.move(box['x']+120,box['y']+70,steps=6);page.mouse.up()
- page.wait_for_function("async()=>!!(await (await import('./src/modules/capture/store.js')).snapshot()).writing?.ink")
+ assert snap(page)['writing']['ink'] is not None
  assert page.locator('#writeInk').evaluate("c=>c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0)"),'ink was not drawn'
  before=snap(page);assert sum(before['balances'].values())==0
  page.reload();page.wait_for_function("!document.querySelector('#startWriting').disabled")
@@ -57,13 +61,17 @@ with sync_playwright() as pw:
  page.wait_for_function("Array.from(document.querySelector('#writeInk').getContext('2d').getImageData(0,0,document.querySelector('#writeInk').width,document.querySelector('#writeInk').height).data).some((v,i)=>i%4===3&&v>0)")
  assert snap(page)['writing']['attempts']==before['writing']['attempts']
  page.locator('#writeClear').click();assert sum(snap(page)['balances'].values())==0
- page.locator('#writeNext').click();page.wait_for_selector('#writeReward:not(.hidden)')
- assert '몬스터볼 1개' in page.locator('#writeRewardText').inner_text()
+ page.locator('#writeNext').click();assert '먼저 써' in page.locator('#writeSaveError').inner_text();assert snap(page)['writing']['index']==0 and snap(page)['balances']['normal']==0
+ assert page.locator('#writeReward').count()==0
+ # White eraser marks and fully undone strokes also remain blank.
+ page.locator('#writeEraser').check();page.locator('#writeInk').scroll_into_view_if_needed();box=page.locator('#writeInk').bounding_box();page.mouse.move(box['x']+30,box['y']+30);page.mouse.down();page.mouse.move(box['x']+100,box['y']+60,steps=4);page.mouse.up();page.locator('#writeNext').click();assert snap(page)['writing']['index']==0
+ page.locator('#writeClear').click();draw_name(page);page.locator('#writeUndo').click();page.locator('#writeNext').click();assert snap(page)['writing']['index']==0
+ draw_name(page);page.locator('#writeNext').click();page.wait_for_function("document.querySelector('#writeProgress').textContent.includes('2 / 2')")
  after=snap(page);assert after['balances']['normal']==1 and after['writing']['index']==1
  attempt=before['writing']['attempts'][0]['id'];session=before['writing']['id']
  page.evaluate("async ([s,a])=>{const m=await import('./src/modules/capture/store.js');await Promise.all([m.completeWriting(s,a),m.completeWriting(s,a)]);}",[session,attempt])
  assert snap(page)['balances']['normal']==1
- print('PASS writing progress/ink reload, incomplete +0, atomic reward and duplicate completion +0')
+ print('PASS blank/erased/undone work cannot complete; saved ink restores; reward remains atomic without green panel')
  page.locator('#writeGoCapture').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
  # Tap, down, sideways, cancellation and multi-pointer cannot consume.
  swipe_mouse(page,up=0);swipe_mouse(page,up=-.1);swipe_mouse(page,dx=.2,up=.08)
@@ -72,18 +80,37 @@ with sync_playwright() as pw:
  # Second tab cannot own the encounter or refund this tab's pending throw.
  tab=context.new_page();tab.goto(base);tab.locator('[data-module=captureModule]').click();tab.wait_for_function("document.querySelector('#captureStage').dataset.state==='blocked'")
  assert '다른 탭' in tab.locator('#captureMessage').inner_text();page.bring_to_front()
- swipe_mouse(page);page.wait_for_function("document.querySelector('#captureStage').dataset.state==='result'")
+ old_encounter=snap(page)['encounter'];swipe_mouse(page);page.wait_for_function("document.querySelector('#captureStage').dataset.state==='empty'")
  caught=snap(page);assert caught['balances']['normal']==0 and len(caught['caught'])==1
  assert '잡았어요' in page.locator('#captureMessage').inner_text()
- page.reload();page.locator('[data-module=captureModule]').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='result'")
+ assert caught['encounter']['id']!=old_encounter['id'] and caught['encounter']['pokemon']['id']!=old_encounter['pokemon']['id']
+ assert page.locator('#captureRetry, #captureContinue').count()==0
+ page.reload();page.locator('[data-module=captureModule]').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='empty'")
  assert snap(page)['caught']==caught['caught']
  print('PASS invalid gestures +0, cross-tab ownership, centered swipe consumes once, capture and reload result exactly once')
- tab.close();page.locator('#captureWrite').click();page.locator('#writeNext').click();page.wait_for_function("document.querySelector('#writeProgress').textContent.includes('완료')")
- page.locator('#writeGoCapture').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='result'")
- page.locator('#captureContinue').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
- swipe_mouse(page,dx=.23,up=.26);page.wait_for_function("document.querySelector('#captureStage').dataset.state==='result'")
+ tab.close();page.locator('#captureWrite').click();draw_name(page);page.locator('#writeNext').click();page.wait_for_function("document.querySelector('#writeProgress').textContent.includes('완료')")
+ page.locator('#writeGoCapture').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
+ swipe_mouse(page,dx=.23,up=.26);page.wait_for_function("document.querySelector('#captureStage').dataset.state==='empty'")
  assert '빗나갔어요' in page.locator('#captureMessage').inner_text();assert snap(page)['balances']['normal']==0
  print('PASS new completion +1, next encounter and diagonal miss consumes last ball without erasing learning')
+ page.locator('#captureWrite').click();page.evaluate("async()=>{const m=await import('./src/modules/capture/store.js');await m.transact(s=>{s.balances.normal=2;});}")
+ page.locator('[data-module=captureModule]').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
+ retry_encounter=snap(page)['encounter']['id'];swipe_mouse(page,dx=.23,up=.26)
+ page.wait_for_function("document.querySelector('[data-ball=normal] .ball-count').textContent==='1'&&document.querySelector('#captureStage').dataset.state==='ready'")
+ assert snap(page)['encounter']['id']==retry_encounter and page.locator('#captureBall').is_visible()
+ print('PASS miss with balls left immediately readies next ball for the same Pokemon without a retry button')
+ page.locator('#captureWrite').click();page.evaluate("async()=>{const m=await import('./src/modules/capture/store.js');await m.transact(s=>{s.balances.normal=1;s.balances.super=2;});}")
+ page.locator('[data-module=captureModule]').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
+ page.evaluate('Math.random=()=>.99');swipe_mouse(page)
+ page.wait_for_function("document.querySelector('#captureBall').dataset.ball==='super'&&document.querySelector('#captureMessage').textContent.includes('아깝다')&&document.querySelector('#captureStage').dataset.state==='ready'")
+ assert snap(page)['encounter']['result']['kind']=='escaped'
+ assert snap(page)['encounter']['id']==retry_encounter and page.locator('#captureBall').get_attribute('data-ball')=='super',(snap(page)['balances'],snap(page)['encounter'],retry_encounter,page.locator('#captureBall').get_attribute('data-ball'))
+ page.evaluate('Math.random=()=>.1');swipe_mouse(page)
+ page.wait_for_function("document.querySelector('[data-ball=super] .ball-count').textContent==='1'&&document.querySelector('#captureStage').dataset.state==='ready'")
+ assert snap(page)['encounter']['id']!=retry_encounter
+ print('PASS escaped hit immediately selects next owned ball; capture with balls left automatically loads a new encounter')
+
+
  # Real IDB transactions: isolation, contention, idempotent recovery, response loss, write failure.
  page.locator('#captureWrite').click()
  result=page.evaluate('''async()=>{
@@ -114,7 +141,7 @@ with sync_playwright() as pw:
  }''')
  assert result=='ok';print('PASS IndexedDB atomicity, reward retry, learner isolation, concurrent last-ball spend, refund/settlement exclusion, save failure rollback')
  # Pending throw abandoned by page termination refunds on acquiring the scene lock.
- page.evaluate('''async()=>{const m=await import('./src/modules/capture/store.js');await m.transact(s=>{s.balances.normal=1;s.encounter.result=null;});const s=await m.snapshot();await m.beginThrow({id:'interrupted',ball:'normal',random:.1,encounterId:s.encounter.id});}''')
+ page.evaluate('''async()=>{const m=await import('./src/modules/capture/store.js');await m.transact(s=>{s.balances={normal:1,super:0,hyper:0,master:0};s.encounter.result=null;});const s=await m.snapshot();await m.beginThrow({id:'interrupted',ball:'normal',random:.1,encounterId:s.encounter.id});}''')
  page.reload();page.locator('[data-module=captureModule]').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
  assert snap(page)['balances']['normal']==1 and snap(page)['throws']['interrupted']['status']=='refunded'
  print('PASS interrupted throw refunded once after reload')
@@ -150,14 +177,14 @@ with sync_playwright() as pw:
  page.evaluate('()=>{window.originalPut=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(){IDBObjectStore.prototype.put=window.originalPut;throw Error("one failed settlement")}}')
  page.wait_for_function("document.querySelector('#captureStage').dataset.state==='save-error'")
  pending=snap(page);pending_ids=[k for k,t in pending['throws'].items() if t['status']=='pending'];assert len(pending_ids)==1
- page.locator('#captureSaveRetry').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='result'")
+ page.locator('#captureSaveRetry').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='empty'")
  settled=snap(page);assert settled['throws'][pending_ids[0]]['status']=='completed' and settled['balances']['normal']==0
  print('PASS debit and settlement storage errors show retry UI; retry preserves throw ID, RNG and single debit')
  # A reward from another tab refreshes the wallet; genuine touch swipe and pause/resume.
  reward_tab=context.new_page();reward_tab.goto(base)
  reward_tab.evaluate("async()=>{const m=await import('./src/modules/capture/store.js');const w=await m.startWriting([{id:25,name:'피카츄'}]);await m.completeWriting(w.id,w.attempts[0].id);}")
  page.wait_for_function("document.querySelector('[data-ball=normal] .ball-count').textContent==='1'")
- reward_tab.close();page.bring_to_front();page.locator('#captureContinue').click();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
+ reward_tab.close();page.bring_to_front();page.wait_for_function("document.querySelector('#captureStage').dataset.state==='ready'")
  page.locator('#captureStage').scroll_into_view_if_needed();box=page.locator('#captureStage').bounding_box();x=box['x']+box['width']*.5;y=box['y']+box['height']*.86
  cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':x,'y':y,'id':1}]})
  for step in range(1,7):cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':x,'y':y-box['height']*.26*step/6,'id':1}]})
@@ -167,8 +194,8 @@ with sync_playwright() as pw:
  page.wait_for_timeout(900)
  assert any(t['status']=='pending' for t in snap(page)['throws'].values())
  page.evaluate("()=>{window.testHidden=false;document.dispatchEvent(new Event('visibilitychange'));}")
- page.wait_for_function("document.querySelector('#captureStage').dataset.state==='result'")
- assert '피카츄를 잡았어요' in page.locator('#captureMessage').inner_text()
+ page.wait_for_function("document.querySelector('#captureStage').dataset.state==='empty'")
+ assert '잡았어요' in page.locator('#captureMessage').inner_text()
  print('PASS cross-tab reward refresh, real upward touch capture and hidden-page pause/resume')
  assert not errors,errors
  page.screenshot(path='/tmp/pokestudy-capture.png',full_page=True)

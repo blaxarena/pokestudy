@@ -325,14 +325,13 @@ body.game-focus{overflow:hidden}
         <p class="hint">세대와 문제 개수를 고른 뒤, 포켓몬 그림과 이름을 보면서 따라 쓰거나 직접 써보세요.</p>
         <div><strong>포켓몬 세대 선택</strong><div class="gen-mini" id="writeGenerationOptions"><label><input type="checkbox" value="1" checked> 1세대</label><label><input type="checkbox" value="2" > 2세대</label><label><input type="checkbox" value="3" > 3세대</label><label><input type="checkbox" value="4" > 4세대</label><label><input type="checkbox" value="5" > 5세대</label><label><input type="checkbox" value="6" > 6세대</label><label><input type="checkbox" value="7" > 7세대</label><label><input type="checkbox" value="8" > 8세대</label><label><input type="checkbox" value="9" > 9세대</label></div></div>
         <div class="tool-row"><label for="writeQuestionCount">문제 수</label><input id="writeQuestionCount" type="number" min="1" max="1025" value="10"><button id="startWriting" class="btn primary">연습 시작</button><span id="writeStatus" class="loading-line" role="status" aria-live="polite">세대와 문제 수를 설정해 주세요.</span></div>
-        <div id="writeReward" class="write-reward hidden" role="status" aria-live="polite"><p id="writeRewardText"></p><div class="actions"><button id="writeGoCapture" class="btn primary">포켓몬 잡으러 가기</button><button id="writeKeepGoing" class="btn secondary">계속 쓰기</button></div></div>
         <div id="writingActivity" class="hidden">
           <div class="quiz-head"><span id="writeProgress" class="pill">문제 1 / 10</span><span class="progress-text" id="writeNameMeta"></span></div><div class="progress-wrap"><div id="writeProgressBar" class="progress"></div></div>
           <div class="write-layout">
             <div class="write-pokemon"><img id="writePokemonImage" alt="이름을 써볼 포켓몬"><h3 id="writePokemonName">포켓몬 이름</h3><p>그림과 이름을 보고 써보세요.</p></div>
             <div class="write-pad-wrap"><div class="tool-controls"><label><input type="checkbox" id="writeShowGuide" checked> 연한 글자 가이드</label><label>색상 <input type="color" id="writePenColor" value="#263447"></label><label>굵기 <input type="range" id="writePenSize" min="2" max="24" value="6"><span id="writePenSizeLabel">6</span></label><label><input type="checkbox" id="writeEraser"> 지우개</label></div>
               <div id="writingPad" class="writing-pad"><div id="writeGuideText" class="guide-text">피카츄</div><canvas id="writeInk" class="write-ink"></canvas></div>
-              <div class="actions"><button id="writeUndo" class="btn secondary">되돌리기</button><button id="writeClear" class="btn outline">다시 쓰기</button><button id="writeSave" class="btn secondary">현재 작품 저장</button><button id="writeNext" class="btn primary">다음 포켓몬 →</button></div><p id="writeSaveError" class="loading-line" role="status" aria-live="polite"></p>
+              <div class="actions"><button id="writeUndo" class="btn secondary">되돌리기</button><button id="writeClear" class="btn outline">다시 쓰기</button><button id="writeSave" class="btn secondary">현재 작품 저장</button><button id="writeNext" class="btn primary">다음 포켓몬 →</button><button id="writeGoCapture" class="btn outline">포켓몬 잡으러 가기</button></div><p id="writeSaveError" class="loading-line" role="status" aria-live="polite"></p>
             </div>
           </div>
           <div id="writeComplete" class="status-note hidden"></div>
@@ -356,8 +355,6 @@ body.game-focus{overflow:hidden}
       <p id="captureImageNote" class="capture-note"></p>
       <p id="captureMessage" class="capture-message" role="status" aria-live="polite">이름을 하나 쓰고 몬스터볼을 받아요</p>
       <div class="capture-actions">
-        <button id="captureRetry" class="btn primary" hidden>한 번 더 던지기</button>
-        <button id="captureContinue" class="btn primary" hidden>계속 잡기</button>
         <button id="captureSkip" class="btn secondary" hidden>결과 보기</button>
         <button id="captureSaveRetry" class="btn secondary" hidden>저장 다시 시도</button>
         <button id="captureLockRetry" class="btn secondary" hidden>다시 열기</button>
@@ -673,7 +670,7 @@ $("retryWrong").addEventListener("click",()=>{
 
 <script type="module">
 import {snapshot as captureSnapshot,startWriting as startWritingSession,saveInk,completeWriting} from './src/modules/capture/store.js';
-import {BALLS} from './src/modules/capture/rules.js';
+import {hasWritingInk} from './src/modules/handwriting/ink.js';
 (()=>{
   const $a=id=>document.getElementById(id);
   const API2='https://pokeapi.co/api/v2/';
@@ -700,7 +697,6 @@ import {BALLS} from './src/modules/capture/rules.js';
   $a('startWriting').disabled=true;
   captureSnapshot().then(s=>restoreWriting(s.writing)).catch(()=>{$a('writeStatus').textContent='저장하지 못했어요. 다시 시도해요';}).finally(()=>{$a('startWriting').disabled=false;});
   $a('writeGoCapture').onclick=()=>openModule('captureModule');
-  $a('writeKeepGoing').onclick=()=>{$a('writeReward').classList.add('hidden');$a('writingActivity').scrollIntoView({block:'nearest'});};
   const navButtons=[...document.querySelectorAll('[data-module]')];
   function openModule(id){
     document.querySelectorAll('.module').forEach(el=>el.classList.toggle('hidden',el.id!==id));
@@ -829,7 +825,7 @@ import {BALLS} from './src/modules/capture/rules.js';
 
   function resizeWriteCanvas(clear=true){const stage=$a('writingPad'),canvas=$a('writeInk');if(!stage||stage.clientWidth<5)return;const old=document.createElement('canvas');if(!clear&&canvas.width){old.width=canvas.width;old.height=canvas.height;old.getContext('2d').drawImage(canvas,0,0);}const {ctx,w,h,dpr}=fitCanvas(canvas,stage);ctx.clearRect(0,0,w,h);if(!clear&&old.width)ctx.drawImage(old,0,0,old.width/dpr,old.height/dpr);}
   function renderWriteQuestion(){if(writeIndex>=writeQuestions.length){$a('writeComplete').classList.remove('hidden');$a('writeComplete').textContent=`연습 완료! ${writeQuestions.length}마리의 이름을 써봤어요. 다시 시작하려면 세대와 문제 수를 설정하고 연습 시작을 눌러주세요.`;$a('writeProgress').textContent=`완료 ${writeQuestions.length}/${writeQuestions.length}`;$a('writeProgressBar').style.width='100%';$a('writeNext').textContent='연습 완료';$a('writeNext').disabled=true;return;}const p=writeQuestions[writeIndex];$a('writeComplete').classList.add('hidden');$a('writeNext').disabled=false;$a('writeNext').textContent=writeIndex===writeQuestions.length-1?'마지막 문제 완료 →':'다음 포켓몬 →';$a('writeProgress').textContent=`문제 ${writeIndex+1} / ${writeQuestions.length}`;$a('writeProgressBar').style.width=`${writeIndex/writeQuestions.length*100}%`;$a('writeNameMeta').textContent=`No. ${String(p.id).padStart(4,'0')} · ${p.gen}세대`;$a('writePokemonName').textContent=p.name;$a('writeGuideText').textContent=p.name;$a('writeShowGuide').checked=true;$a('writeGuideText').classList.remove('hidden');$a('writePokemonImage').onerror=()=>{$a('writePokemonImage').src=p.fallback};$a('writePokemonImage').src=p.image;writeStrokes=[];writeUndoStack=[];resizeWriteCanvas(true);}
-  $a('startWriting').addEventListener('click',async()=>{const btn=$a('startWriting');btn.disabled=true;try{writePool=await loadPool(selectedGens('writeGenerationOptions'),$a('writeStatus'));if(!writePool.length)throw new Error('포켓몬 목록을 불러오지 못했어요.');const count=Math.max(1,Math.min(1025,parseInt($a('writeQuestionCount').value,10)||10));const questions=writePool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(count,writePool.length));restoreWriting(await startWritingSession(questions));$a('writeReward').classList.add('hidden');}catch(e){$a('writeStatus').textContent=e.message;}finally{btn.disabled=false;}});
+  $a('startWriting').addEventListener('click',async()=>{const btn=$a('startWriting');btn.disabled=true;try{writePool=await loadPool(selectedGens('writeGenerationOptions'),$a('writeStatus'));if(!writePool.length)throw new Error('포켓몬 목록을 불러오지 못했어요.');const count=Math.max(1,Math.min(1025,parseInt($a('writeQuestionCount').value,10)||10));const questions=writePool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(count,writePool.length));restoreWriting(await startWritingSession(questions));}catch(e){$a('writeStatus').textContent=e.message;}finally{btn.disabled=false;}});
   $a('writeShowGuide').addEventListener('change',()=>{$a('writeGuideText').classList.toggle('hidden',!$a('writeShowGuide').checked)});
   $a('writePenSize').addEventListener('input',()=>{$a('writePenSizeLabel').textContent=$a('writePenSize').value});
   $a('writeClear').addEventListener('click',()=>{const c=$a('writeInk');c.getContext('2d').clearRect(0,0,c.width,c.height);writeStrokes=[];writeUndoStack=[];persistWriteInk();});
@@ -837,13 +833,12 @@ import {BALLS} from './src/modules/capture/rules.js';
   $a('writeSave').addEventListener('click',()=>{if(!writeQuestions[writeIndex])return;const p=writeQuestions[writeIndex],pad=$a('writingPad'),out=document.createElement('canvas');out.width=$a('writeInk').width;out.height=$a('writeInk').height;const c=out.getContext('2d');c.fillStyle='#fff';c.fillRect(0,0,out.width,out.height);const scale=out.width/pad.clientWidth;c.fillStyle='#d4d9e1';c.textAlign='center';c.textBaseline='middle';c.font=`800 ${Math.min(58,pad.clientWidth*.12)*scale}px system-ui`;if($a('writeShowGuide').checked)c.fillText(p.name,out.width/2,out.height/2);c.drawImage($a('writeInk'),0,0);downloadCanvas(out,`${p.name}-이름쓰기.png`);});
   $a('writeNext').addEventListener('click',async()=>{
     if(writeSaving||writeIndex>=writeQuestions.length||!writeSession)return;
+    if(!hasWritingInk($a('writeInk'))){$a('writeSaveError').textContent='이름을 먼저 써 주세요.';return;}
     writeSaving=true;$a('writeSaveError').textContent='';$a('writeNext').disabled=true;$a('startWriting').disabled=true;
     try{
-      const reward=await completeWriting(writeSession.id,writeSession.attempts[writeIndex].id);
+      await completeWriting(writeSession.id,writeSession.attempts[writeIndex].id);
       const saved=await captureSnapshot();writeSession=saved.writing;writeQuestions=writeSession.questions;writeIndex=writeSession.index;
       renderWriteQuestion();
-      $a('writeRewardText').textContent=`이름 쓰기 완료! ${BALLS[reward.ball].name} 1개를 받았어요. 보유 ${saved.balances[reward.ball]}개`;
-      $a('writeReward').classList.remove('hidden');
     }catch(e){$a('writeStatus').textContent=e.message.includes('다른 화면')?e.message:'저장하지 못했어요. 다시 시도해요';$a('writeSaveError').textContent=$a('writeStatus').textContent;$a('writeNext').disabled=false;}
     finally{writeSaving=false;$a('startWriting').disabled=false;}
   });
