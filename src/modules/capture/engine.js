@@ -17,8 +17,8 @@ function controls(){
   $('captureLockRetry').hidden=owns||state!=='blocked';
   stage.dataset.state=state;
   $('captureBall').hidden=!['ready','aiming','flight','animation'].includes(state)||(state==='animation'&&encounter?.result?.kind==='miss');
-  $('captureBall').style.setProperty('--ball-color',BALLS[selected].color);
-  $('captureBallLabel').textContent=selected==='normal'?'':BALLS[selected].mark;
+  $('captureBall').dataset.ball=selected;
+
   $('captureTarget').hidden=!encounter||(state==='animation'&&encounter?.result?.kind!=='miss')||(state==='result'&&encounter.result?.kind==='caught');
   $('captureRing').hidden=!['ready','aiming','flight'].includes(state);
   const collection=$('captureCollectionList');collection.replaceChildren();
@@ -145,7 +145,7 @@ function tick(now){
 }
 for(const [key,b] of Object.entries(BALLS)){
   const button=document.createElement('button');button.dataset.ball=key;button.type='button';button.setAttribute('aria-pressed','false');
-  const icon=document.createElement('span');icon.className='ball-icon';icon.style.setProperty('--ball-color',b.color);icon.textContent=b.mark;icon.setAttribute('aria-hidden','true');
+  const icon=document.createElement('span');icon.className='ball-icon';icon.dataset.ball=key;icon.setAttribute('aria-hidden','true');
   const count=document.createElement('span');count.className='ball-count';count.textContent='0';
   button.append(icon,document.createTextNode(b.name+' × '),count);
   button.onclick=()=>{if(['ready','result','empty'].includes(state)){selected=key;controls();}};$('captureBalls').append(button);
