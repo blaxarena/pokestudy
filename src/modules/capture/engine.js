@@ -90,6 +90,13 @@ function leave(){
 }
 function point(e){const r=stage.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height,time:e.timeStamp};}
 function drawPosition(element,p){element.style.left=`${p.x*100}%`;element.style.top=`${p.y*100}%`;}
+// Pastel color stops follow the same 60% / 30% boundaries as aim grades.
+function ringColor(ratio){
+  const green=[166,220,180],orange=[249,193,139],red=[239,154,162];
+  const blend=(from,to,t)=>from.map((v,i)=>Math.round(v+(to[i]-v)*t));
+  const color=ratio>.65?green:ratio>.6?blend(green,orange,(.65-ratio)/.05):ratio>.35?orange:ratio>.3?blend(orange,red,(.35-ratio)/.05):red;
+  return `rgb(${color.join(', ')})`;
+}
 function draw(){
   if(!encounter)return;
   const p=targetPosition(time,encounter.seed,reduced.matches),ratio=ringRatio(time,reduced.matches);
@@ -102,6 +109,7 @@ function draw(){
     target.style.top=`${p.y*h+(.5-b.y-b.h/2)*imageHeight}px`;
   }else drawPosition(target,p);
   drawPosition($('captureRing'),p);
+  $('captureRing').style.setProperty('--ring-color',ringColor(ratio));
   const ringSize=stage.clientHeight*TUNING.ringRadius*2*ratio;
   $('captureRing').style.width=`${ringSize}px`;$('captureRing').style.height=`${ringSize}px`;
   const pos=state==='flight'?ballPosition(shot,time-flightStart):state==='animation'?{x:.5,y:.38}:{x:.5,y:.86};drawPosition($('captureBall'),pos);
