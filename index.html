@@ -184,6 +184,19 @@ body.game-focus{overflow:hidden}
 .game-focus .hide-target-grid{max-height:calc(100dvh - 300px)}
 @media(max-width:1099px){.game-focus .hide-target-grid{max-height:none}.game-focus .hide-game-layout{margin-top:8px;gap:8px}}
 
+/* Keep pen gestures from selecting text or dragging browser images. */
+body{-webkit-user-select:none;user-select:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+img,canvas{-webkit-user-drag:none}
+.generation-details{margin:10px 0}
+.generation-details summary{cursor:pointer;font-weight:750;min-height:44px;display:list-item;align-content:center}
+.drawing-input-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0}
+.drawing-input-controls select{min-height:44px;max-width:100%}
+.drawing-input-controls>p{flex-basis:100%;margin:0;font-size:.85rem;color:var(--muted)}
+.drawing-navigation{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
+.drawing-navigation .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.drawing-navigation .ball-icon{margin:0}
+
 </style>
 <link rel="stylesheet" href="./src/modules/capture/style.css">
 <link rel="stylesheet" href="./src/modules/handwriting/stroke-guide.css?v=20261110-pen-guide">
@@ -302,17 +315,17 @@ body.game-focus{overflow:hidden}
       <section class="panel">
         <h2 class="section-title">포켓몬 색칠 공부</h2>
         <p class="hint">원본 그림을 참고해 오른쪽 도안을 펜으로 색칠해 보세요. 도안은 포켓몬 그림에서 외곽선을 자동으로 추출해 만들어요.</p>
-        <div class="tool-row"><label for="colorPokemonSelect">포켓몬 선택</label><select id="colorPokemonSelect"><option value="">먼저 포켓몬 목록을 불러오세요</option></select><button id="randomColorPokemon" class="btn secondary">랜덤 포켓몬</button></div>
+        <div class="tool-row"><label for="colorPokemonSelect">포켓몬 선택</label><select id="colorPokemonSelect"><option value="">먼저 포켓몬 목록을 불러오세요</option></select></div>
         <div class="tool-row"><label for="colorSearch">이름 검색</label><input id="colorSearch" type="search" placeholder="예: 피카츄"><button id="searchColorPokemon" class="btn secondary">검색</button></div>
-        <div><strong>포켓몬 세대 선택</strong><div class="gen-mini" id="colorGenerationOptions"><label><input type="checkbox" value="1" checked> 1세대</label><label><input type="checkbox" value="2" > 2세대</label><label><input type="checkbox" value="3" > 3세대</label><label><input type="checkbox" value="4" > 4세대</label><label><input type="checkbox" value="5" > 5세대</label><label><input type="checkbox" value="6" > 6세대</label><label><input type="checkbox" value="7" > 7세대</label><label><input type="checkbox" value="8" > 8세대</label><label><input type="checkbox" value="9" > 9세대</label></div></div>
+        <details id="colorGenerationDetails" class="generation-details" open><summary>포켓몬 세대 선택</summary><div class="gen-mini" id="colorGenerationOptions"><label><input type="checkbox" value="1" checked> 1세대</label><label><input type="checkbox" value="2" > 2세대</label><label><input type="checkbox" value="3" > 3세대</label><label><input type="checkbox" value="4" > 4세대</label><label><input type="checkbox" value="5" > 5세대</label><label><input type="checkbox" value="6" > 6세대</label><label><input type="checkbox" value="7" > 7세대</label><label><input type="checkbox" value="8" > 8세대</label><label><input type="checkbox" value="9" > 9세대</label></div></details>
         <div class="tool-row"><button id="loadColorPool" class="btn primary">포켓몬 목록 불러오기</button><span id="colorStatus" class="loading-line" role="status" aria-live="polite">세대를 선택하고 목록을 불러와 주세요.</span></div>
         <div class="canvas-layout">
           <div class="canvas-card"><h3>① 원본 그림</h3><div class="reference-stage"><img id="colorReference" alt="선택한 포켓몬 원본 그림" src=""></div><p id="colorPokemonMeta" class="hint">포켓몬을 선택하면 원본이 표시됩니다.</p></div>
-          <div class="canvas-card"><h3>② 색칠 도안</h3><div class="drawing-input-controls"><label for="colorInputMode">그리기 입력</label><select id="colorInputMode" data-drawing-input aria-describedby="colorInputStatus"><option value="auto">자동 · 펜 우선</option><option value="pen">펜만 쓰기</option><option value="all">펜·손가락·마우스</option></select><p id="colorInputStatus" data-drawing-input-status role="status" aria-live="polite"></p></div>
+          <div class="canvas-card"><h3>② 색칠 도안</h3><div class="drawing-input-controls"><label for="colorInputMode">그리기 입력</label><select id="colorInputMode" data-drawing-input aria-describedby="colorInputStatus"><option value="auto">자동 · 펜 우선</option><option value="pen">펜만 쓰기</option><option value="all">펜·손가락·마우스</option></select><div class="drawing-navigation"><button id="randomColorPokemon" class="btn secondary">랜덤 포켓몬</button></div><p id="colorInputStatus" data-drawing-input-status role="status" aria-live="polite"></p></div>
               <div id="colorDrawStage" class="draw-stage"><canvas id="colorInk" class="drawing-canvas"></canvas><canvas id="colorOutline" class="outline-canvas"></canvas></div>
-            <div class="tool-controls"><label>색상 <input type="color" id="colorPenColor" value="#f04444"></label><button id="colorEyedropper" class="btn secondary" type="button">🧪 원본에서 색 가져오기</button><label>굵기 <input type="range" id="colorPenSize" min="2" max="32" value="9"><span id="colorPenSizeLabel">9</span></label><label><input type="checkbox" id="colorEraser"> 지우개</label></div>
+            <div class="tool-controls"><label>색상 <input type="color" id="colorPenColor" value="#f04444"></label><label>굵기 <input type="range" id="colorPenSize" min="2" max="32" value="9"><span id="colorPenSizeLabel">9</span></label><label><input type="checkbox" id="colorEraser"> 지우개</label></div>
             <div id="colorPalette" class="color-palette" aria-label="색상 팔레트"></div>
-            <p class="hint" id="eyedropperHint">색을 누르면 펜 색이 바뀝니다. 지원되는 브라우저에서는 스포이드로 화면의 색도 선택할 수 있어요.</p>
+            <p class="hint">팔레트의 색을 누르거나 색상 선택에서 펜 색을 골라 주세요.</p>
             <div class="actions"><button id="colorUndo" class="btn secondary">되돌리기</button><button id="colorClear" class="btn outline">전체 지우기</button><button id="colorSave" class="btn primary">작품 PNG 저장</button></div>
           </div>
         </div>
@@ -326,18 +339,18 @@ body.game-focus{overflow:hidden}
       <section class="panel">
         <h2 class="section-title">포켓몬 이름 써보기</h2>
         <p class="hint">세대와 문제 개수를 고른 뒤, 포켓몬 그림과 이름을 보면서 따라 쓰거나 직접 써보세요.</p>
-        <div><strong>포켓몬 세대 선택</strong><div class="gen-mini" id="writeGenerationOptions"><label><input type="checkbox" value="1" checked> 1세대</label><label><input type="checkbox" value="2" > 2세대</label><label><input type="checkbox" value="3" > 3세대</label><label><input type="checkbox" value="4" > 4세대</label><label><input type="checkbox" value="5" > 5세대</label><label><input type="checkbox" value="6" > 6세대</label><label><input type="checkbox" value="7" > 7세대</label><label><input type="checkbox" value="8" > 8세대</label><label><input type="checkbox" value="9" > 9세대</label></div></div>
+        <details id="writeGenerationDetails" class="generation-details" open><summary>포켓몬 세대 선택</summary><div class="gen-mini" id="writeGenerationOptions"><label><input type="checkbox" value="1" checked> 1세대</label><label><input type="checkbox" value="2" > 2세대</label><label><input type="checkbox" value="3" > 3세대</label><label><input type="checkbox" value="4" > 4세대</label><label><input type="checkbox" value="5" > 5세대</label><label><input type="checkbox" value="6" > 6세대</label><label><input type="checkbox" value="7" > 7세대</label><label><input type="checkbox" value="8" > 8세대</label><label><input type="checkbox" value="9" > 9세대</label></div></details>
         <div class="tool-row"><label for="writeQuestionCount">문제 수</label><input id="writeQuestionCount" type="number" min="1" max="1025" value="10"><button id="startWriting" class="btn primary">연습 시작</button><span id="writeStatus" class="loading-line" role="status" aria-live="polite">세대와 문제 수를 설정해 주세요.</span></div>
         <div id="writingActivity" class="hidden">
           <div class="quiz-head"><span id="writeProgress" class="pill">문제 1 / 10</span><span class="progress-text" id="writeNameMeta"></span></div><div class="progress-wrap"><div id="writeProgressBar" class="progress"></div></div>
           <div class="write-layout">
             <div class="write-pokemon"><img id="writePokemonImage" alt="이름을 써볼 포켓몬"><h3 id="writePokemonName">포켓몬 이름</h3><p>그림과 이름을 보고 써보세요.</p></div>
             <div class="write-pad-wrap"><div class="tool-controls"><label><input type="checkbox" id="writeShowGuide" checked> 연한 글자 가이드</label><label>색상 <input type="color" id="writePenColor" value="#263447"></label><label>굵기 <input type="range" id="writePenSize" min="2" max="24" value="6"><span id="writePenSizeLabel">6</span></label><label><input type="checkbox" id="writeEraser"> 지우개</label></div>
-              <div class="drawing-input-controls"><label for="writeInputMode">그리기 입력</label><select id="writeInputMode" data-drawing-input aria-describedby="writeInputStatus"><option value="auto">자동 · 펜 우선</option><option value="pen">펜만 쓰기</option><option value="all">펜·손가락·마우스</option></select><p id="writeInputStatus" data-drawing-input-status role="status" aria-live="polite"></p></div>
+              <div class="drawing-input-controls"><label for="writeInputMode">그리기 입력</label><select id="writeInputMode" data-drawing-input aria-describedby="writeInputStatus"><option value="auto">자동 · 펜 우선</option><option value="pen">펜만 쓰기</option><option value="all">펜·손가락·마우스</option></select><div class="drawing-navigation"><button id="writeNext" class="btn primary">다음 포켓몬 →</button><button id="writeGoCapture" class="btn outline">포켓몬 잡으러가기 <span class="ball-icon" data-ball="normal" aria-hidden="true"></span></button></div><p id="writeInputStatus" data-drawing-input-status role="status" aria-live="polite"></p></div>
               <div class="stroke-controls"><label><input type="checkbox" id="writeShowStrokeOrder" checked> 획순 번호</label><button id="writePlayStrokes" class="btn secondary" type="button">획순 재생</button><button id="writeStepStroke" class="btn outline" type="button">한 획씩 보기</button></div>
               <p id="writeStrokeStatus" class="stroke-status" role="status" aria-live="polite">번호 순서대로 따라 써 보세요.</p>
               <div id="writingPad" class="writing-pad"><div id="writeGuideText" class="guide-text">피카츄</div><div id="writeStrokeGuide" class="stroke-guide" aria-hidden="true"></div><canvas id="writeInk" class="write-ink"></canvas></div>
-              <div class="actions"><button id="writeUndo" class="btn secondary">되돌리기</button><button id="writeClear" class="btn outline">다시 쓰기</button><button id="writeSave" class="btn secondary">현재 작품 저장</button><button id="writeNext" class="btn primary">다음 포켓몬 →</button><button id="writeGoCapture" class="btn outline">포켓몬 잡으러 가기</button></div><p id="writeSaveError" class="loading-line" role="status" aria-live="polite"></p>
+              <div class="actions"><button id="writeUndo" class="btn secondary">되돌리기</button><button id="writeClear" class="btn outline">다시 쓰기</button><button id="writeSave" class="btn secondary">현재 작품 저장</button></div><p id="writeSaveError" class="loading-line" role="status" aria-live="polite"></p>
               <details id="writeStrokeDetails" class="stroke-details"><summary>획순 크게 보기</summary><div id="writeStrokeLetters" class="stroke-letters" aria-label="획순을 볼 글자 선택"></div><p id="writeStrokeZoomLabel" class="stroke-zoom-label"></p><div id="writeStrokeZoom" class="stroke-zoom"></div><div class="stroke-controls"><button id="writeZoomPlayStrokes" class="btn secondary" type="button">이 글자 재생</button><button id="writeZoomStepStroke" class="btn outline" type="button">한 획씩 보기</button></div><p id="writeStrokeZoomStatus" class="stroke-status"></p><p class="stroke-note">위의 획순 재생·한 획씩 보기로 선택한 글자를 볼 수 있어요. ㅈ·ㅊ은 인쇄체 기준으로 안내해요.</p></details>
             </div>
           </div>
@@ -426,6 +439,8 @@ body.game-focus{overflow:hidden}
   </footer>
 </div>
 <script>
+// Disable native HTML dragging; pointer drawing and form controls still work.
+document.addEventListener("dragstart",event=>event.preventDefault(),true);
 const API = "https://pokeapi.co/api/v2";
 const ART = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 const SPRITE = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -696,7 +711,7 @@ import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-
     catch{$a('writeStatus').textContent='저장하지 못했어요. 다시 시도해요';$a('writeSaveError').textContent='저장하지 못했어요. 다시 시도해요';}
   }
   function restoreWriting(w){
-    if(!w)return;writeSession=w;writeQuestions=w.questions;writeIndex=w.index;
+    if(!w)return;$a('writeGenerationDetails').open=false;writeSession=w;writeQuestions=w.questions;writeIndex=w.index;
     $a('writingActivity').classList.remove('hidden');renderWriteQuestion();
     restoredInk=w.ink&&w.index<w.questions.length?{id:w.attempts[w.index].id,url:w.ink}:null;
     restoreInkWhenVisible();
@@ -827,7 +842,7 @@ import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-
     $a('colorInk').getContext('2d').clearRect(0,0,$a('colorInk').width,$a('colorInk').height);
     colorStrokes=[];colorUndoStack=[];
   }
-  $a('loadColorPool').addEventListener('click',async()=>{const btn=$a('loadColorPool');btn.disabled=true;try{appPool=await loadPool(selectedGens('colorGenerationOptions'),$a('colorStatus'));if(!appPool.length)throw new Error('포켓몬 목록을 불러오지 못했어요.');fillColorSelect();loadColorPokemon(appPool[0]);}catch(e){$a('colorStatus').textContent=e.message;}finally{btn.disabled=false;}});
+  $a('loadColorPool').addEventListener('click',async()=>{const btn=$a('loadColorPool');btn.disabled=true;try{appPool=await loadPool(selectedGens('colorGenerationOptions'),$a('colorStatus'));if(!appPool.length)throw new Error('포켓몬 목록을 불러오지 못했어요.');fillColorSelect();loadColorPokemon(appPool[0]);$a('colorGenerationDetails').open=false;}catch(e){$a('colorStatus').textContent=e.message;}finally{btn.disabled=false;}});
   $a('colorPokemonSelect').addEventListener('change',()=>loadColorPokemon(appPool.find(p=>p.id===+$a('colorPokemonSelect').value)));
   $a('randomColorPokemon').addEventListener('click',()=>{if(!appPool.length){$a('colorStatus').textContent='먼저 포켓몬 목록을 불러와 주세요.';return;}loadColorPokemon(appPool[Math.floor(Math.random()*appPool.length)]);});
   $a('searchColorPokemon').addEventListener('click',()=>{const q=$a('colorSearch').value.trim();if(!appPool.length){$a('colorStatus').textContent='먼저 포켓몬 목록을 불러와 주세요.';return;}const found=appPool.find(p=>p.name===q)||appPool.find(p=>p.name.includes(q));if(found){loadColorPokemon(found);$a('colorStatus').textContent=`${found.name}을(를) 선택했어요.`;}else $a('colorStatus').textContent='선택한 세대의 목록에서 이름을 찾지 못했어요.';});
@@ -851,17 +866,6 @@ import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-
       palette.appendChild(swatch);
     });
   }
-  $a('colorEyedropper').addEventListener('click',async()=>{
-    const hint=$a('eyedropperHint');
-    // Native browser eyedropper works on supported Chromium browsers and samples the visible screen.
-    if(window.EyeDropper){
-      try{const result=await new EyeDropper().open();$a('colorPenColor').value=result.sRGBHex;$a('colorEraser').checked=false;hint.textContent=`선택한 색상: ${result.sRGBHex}`;}
-      catch(e){if(e.name!=='AbortError')hint.textContent='스포이드를 사용할 수 없어요. 아래 팔레트에서 색을 선택해 주세요.';}
-    }else{
-      hint.textContent='이 브라우저는 화면 스포이드를 지원하지 않아요. 원본 그림의 색을 눈으로 보고 아래 팔레트나 색상 선택에서 골라 주세요.';
-    }
-  });
-
   $a('colorPenSize').addEventListener('input',()=>{$a('colorPenSizeLabel').textContent=$a('colorPenSize').value});
   $a('colorClear').addEventListener('click',()=>{const c=$a('colorInk');c.getContext('2d').clearRect(0,0,c.width,c.height);colorStrokes=[];colorUndoStack=[];});
   $a('colorUndo').addEventListener('click',()=>{const c=$a('colorInk'),ctx=c.getContext('2d'),prev=colorUndoStack.pop();if(prev)ctx.putImageData(prev,0,0);});

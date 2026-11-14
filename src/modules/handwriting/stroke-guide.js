@@ -95,7 +95,8 @@ export function createStrokeGuide(){
     if(!playing||document.hidden){lastTime=null;return;}
     if(lastTime!==null)elapsed+=now-lastTime;lastTime=now;
     const records=activeRecords(),record=records[current];if(!record){playing=false;animation=0;$('writePlayStrokes').textContent='다시 재생';$('writeZoomPlayStrokes').textContent='다시 재생';setStatus('획순을 다 봤어요. 번호 순서대로 써 보세요.');return;}
-    const duration=650,pause=180;paint(record,Math.min(1,elapsed/duration));
+    // Play at 70% of the previous speed, including the pause between strokes.
+    const duration=650/0.7,pause=180/0.7;paint(record,Math.min(1,elapsed/duration));
     if(elapsed>=duration+pause){current++;elapsed=0;lastTime=null;}
     animation=requestAnimationFrame(frame);
   }
