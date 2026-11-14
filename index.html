@@ -361,8 +361,10 @@ img,canvas{-webkit-user-drag:none}
   </section>
 
   <section id="captureModule" class="module hidden">
-    <main class="capture-shell panel">
-      <div class="capture-top"><h2>◓ 포켓몬 잡기</h2><button id="captureBack" class="btn outline">돌아가기</button></div>
+    <main class="dex-frame">
+      <div class="dex-top"><span class="lens"></span><span>POKÉDEX POKÉMON CATCH</span><div class="lights"><i class="light"></i><i class="light"></i><i class="light"></i></div></div>
+      <section class="capture-shell panel">
+      <div class="capture-top"><h2 class="section-title">포켓몬 잡기</h2><button id="captureBack" class="btn outline">돌아가기</button></div>
       <p class="capture-note">이름을 쓰고 받은 볼로 도전해요. 쓰기 완료는 잡지 못해도 남아요.</p>
       <div id="captureBalls" class="capture-balls" aria-label="볼 종류와 보유 수량"></div>
       <h3 id="captureName">포켓몬을 만나러 가요</h3>
@@ -381,6 +383,7 @@ img,canvas{-webkit-user-drag:none}
         <button id="captureWrite" class="btn outline">이름 쓰러 가기</button>
       </div>
       <details class="capture-collection"><summary id="captureCollectionCount">잡은 포켓몬 0종</summary><ul id="captureCollectionList"></ul></details>
+      </section>
     </main>
   </section>
 
