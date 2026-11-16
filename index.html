@@ -713,9 +713,9 @@ import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-
     try{await saveInk(writeSession.id,writeSession.attempts[writeIndex].id,$a('writeInk').toDataURL());}
     catch{$a('writeStatus').textContent='저장하지 못했어요. 다시 시도해요';$a('writeSaveError').textContent='저장하지 못했어요. 다시 시도해요';}
   }
-  function restoreWriting(w){
+  function restoreWriting(w,announce=false){
     if(!w)return;$a('writeGenerationDetails').open=false;writeSession=w;writeQuestions=w.questions;writeIndex=w.index;
-    $a('writingActivity').classList.remove('hidden');renderWriteQuestion();
+    $a('writingActivity').classList.remove('hidden');renderWriteQuestion(announce);
     restoredInk=w.ink&&w.index<w.questions.length?{id:w.attempts[w.index].id,url:w.ink}:null;
     restoreInkWhenVisible();
   }
@@ -877,8 +877,8 @@ import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-
   setupDrawing($a('colorInk'),$a('colorDrawStage'),'color');
 
   function resizeWriteCanvas(clear=true){const stage=$a('writingPad'),canvas=$a('writeInk');if(!stage||stage.clientWidth<5)return;const old=document.createElement('canvas');if(!clear&&canvas.width){old.width=canvas.width;old.height=canvas.height;old.getContext('2d').drawImage(canvas,0,0);}const {ctx,w,h,dpr}=fitCanvas(canvas,stage);ctx.clearRect(0,0,w,h);if(!clear&&old.width)ctx.drawImage(old,0,0,old.width/dpr,old.height/dpr);}
-  function renderWriteQuestion(){if(writeIndex>=writeQuestions.length){$a('writeComplete').classList.remove('hidden');$a('writeComplete').textContent=`연습 완료! ${writeQuestions.length}마리의 이름을 써봤어요. 다시 시작하려면 세대와 문제 수를 설정하고 연습 시작을 눌러주세요.`;$a('writeProgress').textContent=`완료 ${writeQuestions.length}/${writeQuestions.length}`;$a('writeProgressBar').style.width='100%';$a('writeNext').textContent='연습 완료';$a('writeNext').disabled=true;return;}const p=writeQuestions[writeIndex];$a('writeComplete').classList.add('hidden');$a('writeNext').disabled=false;$a('writeNext').textContent=writeIndex===writeQuestions.length-1?'마지막 문제 완료 →':'다음 포켓몬 →';$a('writeProgress').textContent=`문제 ${writeIndex+1} / ${writeQuestions.length}`;$a('writeProgressBar').style.width=`${writeIndex/writeQuestions.length*100}%`;$a('writeNameMeta').textContent=`No. ${String(p.id).padStart(4,'0')} · ${p.gen}세대`;$a('writePokemonName').textContent=p.name;$a('writeGuideText').textContent=p.name;$a('writeShowGuide').checked=true;writingGuide.setName(p.name);writingGuide.setVisible(true);$a('writePokemonImage').onerror=()=>{$a('writePokemonImage').src=p.fallback};$a('writePokemonImage').src=p.image;writeStrokes=[];writeUndoStack=[];resizeWriteCanvas(true);}
-  $a('startWriting').addEventListener('click',async()=>{const btn=$a('startWriting');btn.disabled=true;try{writePool=await loadPool(selectedGens('writeGenerationOptions'),$a('writeStatus'));if(!writePool.length)throw new Error('포켓몬 목록을 불러오지 못했어요.');const count=Math.max(1,Math.min(1025,parseInt($a('writeQuestionCount').value,10)||10));const questions=writePool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(count,writePool.length));restoreWriting(await startWritingSession(questions));}catch(e){$a('writeStatus').textContent=e.message;}finally{btn.disabled=false;}});
+  function renderWriteQuestion(announce=false){if(writeIndex>=writeQuestions.length){$a('writeComplete').classList.remove('hidden');$a('writeComplete').textContent=`연습 완료! ${writeQuestions.length}마리의 이름을 써봤어요. 다시 시작하려면 세대와 문제 수를 설정하고 연습 시작을 눌러주세요.`;$a('writeProgress').textContent=`완료 ${writeQuestions.length}/${writeQuestions.length}`;$a('writeProgressBar').style.width='100%';$a('writeNext').textContent='연습 완료';$a('writeNext').disabled=true;return;}const p=writeQuestions[writeIndex];$a('writeComplete').classList.add('hidden');$a('writeNext').disabled=false;$a('writeNext').textContent=writeIndex===writeQuestions.length-1?'마지막 문제 완료 →':'다음 포켓몬 →';$a('writeProgress').textContent=`문제 ${writeIndex+1} / ${writeQuestions.length}`;$a('writeProgressBar').style.width=`${writeIndex/writeQuestions.length*100}%`;$a('writeNameMeta').textContent=`No. ${String(p.id).padStart(4,'0')} · ${p.gen}세대`;$a('writePokemonName').textContent=p.name;$a('writeGuideText').textContent=p.name;$a('writeShowGuide').checked=true;writingGuide.setName(p.name);writingGuide.setVisible(true);$a('writePokemonImage').onerror=()=>{$a('writePokemonImage').src=p.fallback};$a('writePokemonImage').src=p.image;writeStrokes=[];writeUndoStack=[];resizeWriteCanvas(true);if(announce&&!$a('writeModule').classList.contains('hidden')&&'speechSynthesis' in window)speakName(p.name);}
+  $a('startWriting').addEventListener('click',async()=>{const btn=$a('startWriting');btn.disabled=true;try{writePool=await loadPool(selectedGens('writeGenerationOptions'),$a('writeStatus'));if(!writePool.length)throw new Error('포켓몬 목록을 불러오지 못했어요.');const count=Math.max(1,Math.min(1025,parseInt($a('writeQuestionCount').value,10)||10));const questions=writePool.slice().sort(()=>Math.random()-.5).slice(0,Math.min(count,writePool.length));restoreWriting(await startWritingSession(questions),true);}catch(e){$a('writeStatus').textContent=e.message;}finally{btn.disabled=false;}});
   $a('writeShowGuide').addEventListener('change',()=>writingGuide.setVisible($a('writeShowGuide').checked));
   $a('writePenSize').addEventListener('input',()=>{$a('writePenSizeLabel').textContent=$a('writePenSize').value});
   $a('writeClear').addEventListener('click',()=>{const c=$a('writeInk');c.getContext('2d').clearRect(0,0,c.width,c.height);writeStrokes=[];writeUndoStack=[];persistWriteInk();});
@@ -891,7 +891,7 @@ import {createPenInput} from './src/modules/handwriting/pen-input.js?v=20261110-
     try{
       await completeWriting(writeSession.id,writeSession.attempts[writeIndex].id);
       const saved=await captureSnapshot();writeSession=saved.writing;writeQuestions=writeSession.questions;writeIndex=writeSession.index;
-      renderWriteQuestion();
+      renderWriteQuestion(true);
     }catch(e){$a('writeStatus').textContent=e.message.includes('다른 화면')?e.message:'저장하지 못했어요. 다시 시도해요';$a('writeSaveError').textContent=$a('writeStatus').textContent;$a('writeNext').disabled=false;}
     finally{writeSaving=false;$a('startWriting').disabled=false;}
   });
